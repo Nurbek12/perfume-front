@@ -10,8 +10,8 @@ lerna-debug.log*
 node_modules
 Tasks.todo
 .vscode
-src/p1
 src/pages/admin
+src/p1
 public/chess
 public/flags
 public/mdi
