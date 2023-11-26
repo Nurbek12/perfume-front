@@ -11,6 +11,7 @@ node_modules
 Tasks.todo
 .vscode
 src/p1
+src/pages/admin
 public/chess
 public/flags
 public/mdi

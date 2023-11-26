@@ -20,8 +20,8 @@
                             :items-length="totalCount"
                             :loading="loading"
                             no-data-text="Пусто"
-                            hover="" :items="items" item-value="id"
-                            :headers="localizedHeaders" density="comfortable">
+                            hover :items="items" item-value="id"
+                            :headers="(localizedHeaders as any)" density="comfortable">
                             <!-- @update:options="loadItems" -->
                             <template #bottom></template>
                             <template #item.actions="{ item, index }">
@@ -29,7 +29,7 @@
                                     <span></span>
                                     <div>
                                         <v-btn @click="editItem(item)" color="light-blue-accent-4" size="30" flat class="mr-1"><v-icon>mdi-pencil</v-icon></v-btn>
-                                        <v-btn @click="deleteItem(index, item.id)" color="light-blue-accent-4" size="30" flat><v-icon>mdi-delete</v-icon></v-btn>
+                                        <v-btn @click="deleteItem(item)" color="light-blue-accent-4" size="30" flat><v-icon>mdi-delete</v-icon></v-btn>
                                     </div>
                                 </td>
                             </template>
@@ -46,8 +46,8 @@
             <v-pagination bg-color="surface" v-model="page" :length="Math.ceil(totalCount / perpage)" @update:modelValue="loadItems" active-color="primary" size="40" total-visible="3" variant="flat"></v-pagination>
         </v-col>
     </v-row>
-    <v-dialog persistent="" v-model="dialog" max-width="500px" transition="fade-transition">
-      <v-card flat="" border="" color="background">
+    <v-dialog persistent v-model="dialog" max-width="500px" transition="fade-transition">
+      <v-card flat border="" color="background">
         <v-card-title class="px-4 py-3 d-flex justify-space-between align-center">
           <span class="font-weight-light">{{ formTitle }}</span>
           <v-btn flat @click="dialog=false" size="32" color="primary"><v-icon size="small">mdi-close</v-icon></v-btn>
@@ -65,7 +65,6 @@
             </v-col>
             <v-col cols="12">
               <v-textarea
-                v-model="editedItem.description"
                 label="Описание" hide-details
                 color="primary" variant="outlined"
                 density="comfortable" bg-color="surface"

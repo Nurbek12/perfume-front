@@ -47,7 +47,7 @@
             <v-pagination bg-color="surface" v-model="page" :length="Math.ceil(totalCount / perpage)" @update:modelValue="loadItems" active-color="primary" size="40" total-visible="3" variant="flat"></v-pagination>
         </v-col>
     </v-row>
-    <v-dialog persistent="" v-model="dialog" max-width="500px" transition="fade-transition">
+    <v-dialog persistent v-model="dialog" max-width="500px" transition="fade-transition">
       <v-card flat="" border="" color="background">
         <v-card-title class="px-4 py-3 d-flex justify-space-between align-center">
           <span class="font-weight-light">{{ formTitle }}</span>
