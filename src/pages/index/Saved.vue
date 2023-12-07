@@ -16,8 +16,13 @@
 </template>
 
 <script setup lang="ts">
-import AppProductCard from '../../components/app-product-card.vue'
+import { defineEmits, onMounted } from 'vue'
 import { useStore } from 'vuex'
+import AppProductCard from '../../components/app-product-card.vue'
 
 const { getters } = useStore()
+const emits = defineEmits(['loaded'])
+onMounted(() => {
+    emits('loaded')
+})
 </script>

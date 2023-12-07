@@ -9,17 +9,21 @@ export default createStore({
         saved: JSON.parse(localStorage.getItem('saved') || "[]"),
 
         colors: [],
+        brands: [],
         categories: [],
     },
     getters: {
         token: state => state.token,
+        isLogged: state => !!state.token,
         user: state => state.user,
         userid: state => state.user?._id,
         cart: state => state.cart,
         saved: state => state.saved,
 
         colors: state => state.colors,
+        brands: state => state.brands,
         categories: state => state.categories,
+        parent_categories: state => state.categories.filter((c: any) => c.parent === null),
         
         total_cart_sum: state => state.cart.reduce((a: number, b: any) => {
             return a + (b.discount?b.price - (b.price * b.discount / 100):b.price) * b.quantity
@@ -27,10 +31,20 @@ export default createStore({
     },
     actions: {},
     mutations: {
+        SET_COLORS: (state, payload) => {
+            state.colors = payload
+        },
+        SET_CATEGORIES: (state, payload) => {
+            state.categories = payload
+        },
+        SET_BRANDS: (state, payload) => {
+            state.brands = payload
+        },
         SET_TOKEN: (state, payload) => {
             state.token = payload
-            const expires = new Date(new Date().getTime() + 5 * 60 * 60 * 1000);
-            cookie.set('token', payload, { expires })
+            localStorage.setItem('token', payload)
+            // const expires = new Date(new Date().getTime() + 5 * 60 * 60 * 1000);
+            // cookie.set('token', payload, { expires })
         },
         SET_USER: (state, payload) => {
             state.user = payload
@@ -39,7 +53,7 @@ export default createStore({
         ADD_TO_CART: (state, item) => {
             const itemIndex = state.cart.findIndex((p: any) => p.id === item.id)
 
-            if(itemIndex < 0) state.cart.push({...item, quantity: 1})
+            if(itemIndex < 0) state.cart.push({...item, quantity: 1, selected: 0})
             else state.cart[itemIndex].quantity += 1
 
             localStorage.setItem('cart', JSON.stringify(state.cart))
@@ -65,7 +79,8 @@ export default createStore({
             state.token = ''
             state.user = {}
             localStorage.removeItem('user')
-            cookie.remove('token')
+            localStorage.removeItem('token')
+            // cookie.remove('token')
             window.location.href = '/login'
         }
     },

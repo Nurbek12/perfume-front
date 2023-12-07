@@ -2,136 +2,169 @@
 <v-container>
     <v-row>
         <v-col cols="12" sm="6">
-            <v-card flat>
-                <v-img height="400" width="100%" :src="product.image"></v-img>
-                <v-card-actions class="px-0">
-                    <v-slide-group
-                        v-model="currentImage"
-                        class="pa-4"
-                        selected-class="bg-primary"
-                        show-arrows>
-                        <v-slide-group-item v-slot="{ isSelected, toggle }"
-                            v-for="n in 15" :key="n">
-                            <v-avatar size="50" rounded @click="toggle" :color="!isSelected?'grey-lighten-3':'primary'" class="mx-1 pa-1">
-                                <v-img :src="product.image" cover></v-img>
-                            </v-avatar>
-                        </v-slide-group-item>
-                    </v-slide-group>
-                </v-card-actions>
-            </v-card>
+            <v-skeleton-loader :loading="loading" type="image,image,button,button,button,button">
+                <v-card flat width="100%">
+                    <v-avatar rounded size="100%">
+                        <v-img height="400" width="100%" :src="images?.[currentImage]?.image?.full_size||'/img/nophoto.jpg'"></v-img>
+                    </v-avatar>
+                    <v-card-actions class="px-0">
+                        <v-slide-group
+                            v-model="currentImage"
+                            class="pa-4" mandatory
+                            selected-class="bg-primary"
+                            show-arrows>
+                            <v-slide-group-item v-slot="{ isSelected, toggle }"
+                            v-for="image, i in images" :key="i">
+                                <v-avatar size="50" rounded @click="toggle" :color="!isSelected?'grey-lighten-3':'primary'" class="mx-1 pa-1">
+                                    <v-img :src="image.image.thumbnail||'/img/nophoto.jpg'" cover></v-img>
+                                </v-avatar>
+                            </v-slide-group-item>
+                        </v-slide-group>
+                    </v-card-actions>
+                </v-card>
+            </v-skeleton-loader>
         </v-col>
         <v-col cols="12" sm="6">
-            <v-card variant="text">
-                <span class="text-primary text-subtitle-1">Perfume Brand</span>
-                <v-card-title class="pa-0">{{ product.title }}</v-card-title>
-                <v-card-text class="px-0 py-2">{{ product.description }}</v-card-text>
-                <v-card-text class="px-0 py-2">        
-                    <v-breadcrumbs :items="items" density="compact" class="pa-0">
-                        <template v-slot:divider>
-                            <v-icon icon="mdi-chevron-right"></v-icon>
-                        </template>
-                    </v-breadcrumbs>
-                </v-card-text>
-                <v-card-text class="px-0 pt-2 pb-0">
-                    <v-radio-group inline>
-                        <v-radio
-                            v-for="c, i in colors"
-                            :key="i"
-                            density="compact"
-                            class="text-caption"
-                            :label="c.name"
-                            :color="c.code"
-                            :base-color="c.code"
-                            :value="c.name" />
-                    </v-radio-group>
-                    <!-- <v-btn-toggle shaped mandatory :model-value="0">
-                        <v-btn v-for="c, j in ['#ff0','#00f','#f00']" :key="j" :color="c" size="40" variant="flat"></v-btn>
-                    </v-btn-toggle> -->
-                </v-card-text>
-                <v-card-text class="px-0 pb-2 pt-0">
-                    <v-rating readonly color="amber" hover :length="5" :size="32" :model-value="(product.rate as any)" active-color="amber" />
-                </v-card-text>
-                <v-card-text class="pb-0 pt-2 pl-0 text-h5 text-primary">
-                    {{product.price - (product.price * product.discount / 100)}} $
-                    <span v-show="product.discount" class="text-medium-emphasis text-subtitle-1 text-decoration-line-through" style="line-height: 0">
-                        {{ product.price }} $
-                    </span>
-                </v-card-text>
-                <v-card-text class="px-0 pt-4">
-                    <div class="w-sm-50 w-100 d-flex justify-space-between">
-                        <div class="mr-2" style="max-width: 200px; width: 100%;">
-                            <div v-if="!!cart_item(product.id!)" class="w-100 d-flex justify-space-between align-center">
-                                <v-btn size="40" color="primary" variant="flat" class="text-none" @click="commit('REMOVE_TO_CART', product)"><v-icon>mdi-minus</v-icon></v-btn>
-                                <div class="d-flex justify-center text-center">{{ cart_item(product.id!).quantity }}</div>
-                                <v-btn size="40" color="primary" variant="flat" class="text-none ml-0" @click="commit('ADD_TO_CART', product)"><v-icon>mdi-plus</v-icon></v-btn>
-                            </div>
-                            <v-btn height="40" block v-else @click="commit('ADD_TO_CART', product)" color="primary" variant="flat" class="text-none">Добавить в корзину</v-btn>
+            <v-skeleton-loader :loading="loading" type="article, avatar, text, paragraph" min-height="100%" color="transparent">
+                <v-card variant="text">
+                    <span class="text-primary text-subtitle-1">{{ product.brand?.name }}</span>
+                    <v-card-title class="pa-0">{{ product.title }}</v-card-title>
+                    <!-- <v-card-text class="px-0 py-2">{{ product.description }}</v-card-text> -->
+                    <v-card-text class="px-0 py-2">        
+                        <!-- <v-breadcrumbs :items="items" density="compact" class="pa-0">
+                            <template v-slot:divider>
+                                <v-icon icon="mdi-chevron-right"></v-icon>
+                            </template>
+                        </v-breadcrumbs> -->
+                        <div class="d-flex align-center gap-1">
+                            <span>{{ product.category['name_'+locale] }}</span>
+                            <v-icon v-if="!!product.category.children?.[0]">mdi-chevron-right</v-icon>
+                            <span>{{ product.category.children?.[0]?.['name_'+locale] }}</span>
+                            <v-icon v-if="!!product.category.children?.[0]?.children?.[0]">mdi-chevron-right</v-icon>
+                            <span class="text-disabled">{{ product.category.children?.[0]?.children?.[0]?.['name_'+locale] }}</span>
                         </div>
-                        <v-btn @click="save(product)" size="40" color="primary" variant="flat" class="text-none">
-                            <v-icon>mdi-heart{{saved_item(product.id)?'':'-outline'}}</v-icon>
-                        </v-btn>
-                    </div>
-                </v-card-text>
-                <v-card-text class="pa-0">
-                    <v-tabs v-model="tab" density="compact" color="primary">
-                        <v-tab :value="1">Описание</v-tab>
-                        <v-tab :value="2">Применение</v-tab>
-                    </v-tabs>
-                    <v-window v-model="tab">
-                        <v-window-item v-for="n in 2" :key="n" :value="n">
-                            <div class="py-2">
-                                Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Взобравшись, текст дорогу выйти эта великий одна скатился большой приставка что, имеет дороге даль всеми бросил буквоград то города.
+                    </v-card-text>
+                    <v-card-text class="px-0 pt-2 pb-0">
+                        <v-radio-group inline v-model="selectedColor">
+                            <v-radio
+                                v-for="c in product.colors"
+                                :key="c.id"
+                                density="compact"
+                                class="text-caption"
+                                :label="c.name"
+                                :color="c.hex"
+                                :base-color="c.hex"
+                                :value="c.id" />
+                        </v-radio-group>
+                        <!-- <v-btn-toggle shaped mandatory :model-value="0">
+                            <v-btn v-for="c, j in ['#ff0','#00f','#f00']" :key="j" :color="c" size="40" variant="flat"></v-btn>
+                        </v-btn-toggle> -->
+                    </v-card-text>
+                    <v-card-text class="px-0 pb-2 pt-0">
+                        <v-rating readonly color="amber" half-increments :length="5" :size="32" :model-value="(product.rating as any)" active-color="amber" />
+                    </v-card-text>
+                    <v-card-text class="pb-0 pt-2 pl-0 text-h5 text-primary">
+                        {{product.price - (product.price * product.discount / 100)}}
+                        <span v-show="product.discount" class="text-medium-emphasis text-subtitle-1 text-decoration-line-through" style="line-height: 0">
+                            {{ product.price }}
+                        </span>
+                        {{ t('sum') }}
+                    </v-card-text>
+                    <v-card-text class="px-0 pt-4">
+                        <div class="w-sm-50 w-100 d-flex justify-space-between">
+                            <div class="mr-2" style="max-width: 200px; width: 100%;">
+                                <div v-if="!!cart_item(product.id!)" class="w-100 d-flex justify-space-between align-center">
+                                    <v-btn size="40" color="primary" variant="flat" class="text-none" @click="commit('REMOVE_TO_CART', product)"><v-icon>mdi-minus</v-icon></v-btn>
+                                    <div class="d-flex justify-center text-center">{{ cart_item(product.id!).quantity }}</div>
+                                    <v-btn size="40" color="primary" variant="flat" class="text-none ml-0" @click="commit('ADD_TO_CART', product)"><v-icon>mdi-plus</v-icon></v-btn>
+                                </div>
+                                <v-btn height="40" block v-else @click="commit('ADD_TO_CART', product)" color="primary" variant="flat" class="text-none">Добавить в корзину</v-btn>
                             </div>
-                        </v-window-item>
-                    </v-window>
-                </v-card-text>
-            </v-card>
+                            <v-btn @click="save(product)" size="40" color="primary" variant="flat" class="text-none">
+                                <v-icon>mdi-heart{{saved_item(product.id)?'':'-outline'}}</v-icon>
+                            </v-btn>
+                        </div>
+                    </v-card-text>
+                    <v-card-text class="pa-0">
+                        <v-tabs v-model="tab" density="compact" color="primary">
+                            <v-tab :value="1">Описание</v-tab>
+                            <v-tab :value="2">Применение</v-tab>
+                        </v-tabs>
+                        <v-window v-model="tab">
+                            <v-window-item v-for="k,i in ['description_', 'usage_']" :value="i+1">
+                                <div class="py-2">
+                                    {{ product[k+locale] }}
+                                </div>
+                            </v-window-item>
+                        </v-window>
+                    </v-card-text>
+                </v-card>
+            </v-skeleton-loader>
         </v-col>
         <v-col cols="12">
-            <v-sheet width="100%" class="pa-4 px-2">
-                <span class="pl-4 text-h5">Отзывы</span>
-                <v-list-item v-for="i in 3" :key="i" class="py-3">
-                    <template #prepend>
-                        <v-avatar size="40" color="primary">
-                            А
-                        </v-avatar>
-                    </template>
-                    <v-list-item-title>Анна Николаевна</v-list-item-title>
-                    <v-list-item-subtitle>Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Реторический текстов власти о силуэт выйти океана коварных снова страна?</v-list-item-subtitle>
-                </v-list-item>
-            </v-sheet>
+            <v-skeleton-loader :loading="loading" type="sentences,avatar, paragraph" min-height="100%">
+                <v-sheet width="100%" class="py-4 px-2">
+                    <div class="d-flex align-center justify-space-between">
+                        <span class="pl-2 text-h5 text-primary">Отзывы (3)</span>
+                        <v-btn @click="dialog=true" size="35" color="primary" variant="flat">
+                            <v-icon>mdi-chat-outline</v-icon>
+                        </v-btn>
+                    </div>
+                    <v-list-item v-for="i in 3" :key="i" class="py-3 px-3">
+                        <v-list-item-title class="d-flex">
+                            <span class="mr-2">Анна Николаевна</span>
+                            <span class="mt-0">
+                                <v-rating readonly :length="5" size="small" density="compact" color="amber"></v-rating>
+                            </span>
+                        </v-list-item-title>
+                        <p class="text-caption pl-2">Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Реторический текстов власти о силуэт выйти океана коварных снова страна?</p>
+                        <v-list-item-subtitle class="my-1 d-flex justify-end text-caption">{{ new Date().toLocaleString() }}</v-list-item-subtitle>
+                        <v-divider></v-divider>
+                    </v-list-item>
+                </v-sheet>
+            </v-skeleton-loader>
         </v-col>
     </v-row>
+    <v-dialog v-model="dialog" max-width="450" width="100%">
+        <v-card>
+            <v-card-title class="text-primary">Отправить отзыв</v-card-title>
+            <v-card-text class="py-3">
+                <v-row>
+                    <v-col cols="12">
+                        <v-textarea v-model="review.text" placeholder="Напишите отзыв" no-resize hide-details density="comfortable" variant="outlined" />
+                    </v-col>
+                    <v-col cols="6">
+                        <v-rating v-model="review.rate" hover :length="5" density="compact" color="amber"></v-rating>
+                    </v-col>
+                    <v-col cols="6" class="d-flex justify-end">
+                        <v-btn color="primary">Отправить</v-btn>
+                    </v-col>
+                </v-row>
+            </v-card-text>
+        </v-card>
+    </v-dialog>
 </v-container>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
+import { ref, reactive, computed, defineEmits, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
-import { perfumes } from '../../products'
+import { productid } from '../../products'
 import { IProduct } from '../../interfaces'
+import { getProductById } from '../../api/products'
+import { useI18n } from 'vue-i18n'
 
+const { locale, t } = useI18n()
+const dialog = ref(false)
+const loading = ref(false)
 const currentImage = ref(0)
-const items = [
-{
-    title: 'Макияж',
-    disabled: false,
-},
-{
-    title: 'Для лица',
-    disabled: false,
-},
-{
-    title: 'Тональные средства',
-    disabled: true,
-},
-]
-const colors = [
-    { name: 'Желтый', code: '#ee0' },
-    { name: 'Синый', code: '#00f' },
-    { name: 'Фиолетовый', code: '#f0f' },
-]
+const selectedColor = ref(0)
+const product = ref<IProduct|any>({})
+const review = reactive({
+    text: "",
+    rate: 0
+})
 
 const tab = ref(1)
 const { params } = useRoute()
@@ -143,7 +176,27 @@ const save = (item: IProduct) => {
     else commit('REMOVE_TO_SAVE', item)
 }
 
-const product = computed(() => {
-    return perfumes.find((p: IProduct) => p.id === Number(params.id))
+const images = computed(() => {
+    if(!!selectedColor.value) return [productid.units.find((c) => c.color === selectedColor.value)]
+    else return product.value.images
 })
+
+
+const init = async () => {
+    loading.value = true
+    // const { data } = await getProductById(params.id as any, 'expand=images,colors,reviews,category,brand,units')
+    // console.log(data);
+    // product.value = data
+    product.value = productid
+    loading.value = false
+    if(productid.colors.length>0) selectedColor.value = productid.colors[0].id
+}
+
+init()
+
+const emits = defineEmits(['loaded'])
+onMounted(() => {
+    emits('loaded')
+})
+
 </script>

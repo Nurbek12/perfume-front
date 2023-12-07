@@ -1199,4 +1199,216 @@ export const navigations = [
     href: "/product/search/automotive",
     
   },
-];
+]
+
+
+export const categories = {
+    "count": 1,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "id": 1,
+            "lft": 1,
+            "rght": 4,
+            "tree_id": 1,
+            "level": 0,
+            "name_en": "Test Category 1",
+            "name_ru": "Тестовая Категория 1",
+            "name_uz": "Test Kategoriya 1",
+            "children": [
+                {
+                    "id": 2,
+                    "lft": 2,
+                    "rght": 3,
+                    "tree_id": 1,
+                    "level": 1,
+                    "name_en": "Sub Test Category 1",
+                    "name_ru": "Суб Тестовая Категория 1",
+                    "name_uz": "Sub Test Kategoriyasi 1",
+                    "children": []
+                }
+            ]
+        }
+    ]
+}
+
+export const brands = {
+    "count": 1,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "id": 1,
+            "name": "Test Brand",
+            "description": "Test desc",
+            "image": null,
+            "image_ppoi": "(0.5, 0.5)",
+            "i18n": {
+                "description_ru": "Тест описание",
+                "description_uz": "Test desc"
+            },
+            "description_i18n": "Test desc",
+            "description_en": "Test desc",
+            "description_uz": "Test desc",
+            "description_ru": "Тест описание"
+        }
+    ]
+}
+
+export const productid = {
+    "id": 1,
+    "title": "Test",
+    "description_en": "Test",
+    "description_ru": "Test",
+    "description_uz": "Test",
+    "usage_en": "Test",
+    "usage_ru": "Test",
+    "usage_uz": "Test",
+    "created_at": "2023-12-06T11:37:24.719865",
+    "updated_at": "2023-12-06T20:33:10.399332",
+    "category": {
+        "id": 1,
+        "name": "Test Category 1",
+        "i18n": {
+            "name_uz": "Test Kategoriya 1",
+            "name_ru": "Тестовая Категория 1"
+        },
+        "lft": 1,
+        "rght": 4,
+        "tree_id": 1,
+        "level": 0,
+        "name_i18n": "Test Category 1",
+        "name_en": "Test Category 1",
+        "name_uz": "Test Kategoriya 1",
+        "name_ru": "Тестовая Категория 1",
+        "parent": null
+    },
+    "brand": {
+        "id": 1,
+        "name": "Test Brand",
+        "description": "Test desc",
+        "image": null,
+        "image_ppoi": "(0.5, 0.5)",
+        "i18n": {
+            "description_ru": "Тест описание",
+            "description_uz": "Test desc"
+        },
+        "description_i18n": "Test desc",
+        "description_en": "Test desc",
+        "description_uz": "Test desc",
+        "description_ru": "Тест описание"
+    },
+    "colors": [
+        {
+            "id": 1,
+            "name": "Red",
+            "hex": "#FF0000"
+        },
+        {
+            "id": 2,
+            "name": "Blue",
+            "hex": "#0500FF"
+        }
+    ],
+    "price": 500,
+    "discount": 0,
+    "rating": "3.50",
+    "is_gift": false,
+    "images": [
+        {
+            "id": 1,
+            "image": {
+                "medium_square_crop": "http://192.168.238.124:8000/media/__sized__/images/01_yTHxFxh-crop-c0-5__0-5-400x400-70.jpg",
+                "full_size": "http://192.168.238.124:8000/media/images/01_yTHxFxh.jpg",
+                "thumbnail": "http://192.168.238.124:8000/media/__sized__/images/01_yTHxFxh-thumbnail-100x100-70.jpg"
+            },
+            "image_ppoi": "(0.5, 0.5)",
+            "product": 1
+        }
+    ],
+    "ratings": [
+        1
+    ],
+    "units": [
+        {
+            "id": 1,
+            "product_title": "Test",
+            "image": {
+                "medium_square_crop": "http://192.168.238.124:8000/media/__sized__/images/771-crop-c0-5__0-5-400x400-70.jpg",
+                "full_size": "http://192.168.238.124:8000/media/images/771.jpg",
+                "thumbnail": "http://192.168.238.124:8000/media/__sized__/images/771-thumbnail-100x100-70.jpg"
+            },
+            "balance": 20,
+            "image_ppoi": "(0.5, 0.5)",
+            "product": 1,
+            "color": 1
+        },
+        {
+            "id": 4,
+            "product_title": "Test",
+            "image": {
+                "medium_square_crop": "http://192.168.238.124:8000/media/__sized__/images/770_qlMcYwJ-crop-c0-5__0-5-400x400-70.jpg",
+                "full_size": "http://192.168.238.124:8000/media/images/770_qlMcYwJ.jpg",
+                "thumbnail": "http://192.168.238.124:8000/media/__sized__/images/770_qlMcYwJ-thumbnail-100x100-70.jpg"
+            },
+            "balance": 50,
+            "image_ppoi": "(0.5, 0.5)",
+            "product": 1,
+            "color": 2
+        }
+    ]
+}
+
+export const products = {
+      "next": null,
+      "next_page": null,
+      "previous": null,
+      "previous_page": null,
+      "count": 1,
+      "page_count": 1,
+      "limit": 9,
+      "results": [
+          {
+              "id": 1,
+              "title": "Test",
+              "description_en": "Test",
+              "description_ru": "Test",
+              "description_uz": "Test",
+              "usage_en": "Test",
+              "usage_ru": "Test",
+              "usage_uz": "Test",
+              "created_at": "2023-12-06T11:37:24.719865",
+              "updated_at": "2023-12-06T20:33:10.399332",
+              "category": 1,
+              "brand": 1,
+              "colors": [
+                  1,
+                  2
+              ],
+              "price": 500,
+              "discount": 0,
+              "rating": "0.00",
+              "is_gift": false,
+              "images": [
+                  {
+                      "id": 1,
+                      "image": {
+                          "medium_square_crop": "http://192.168.238.124:8000/media/__sized__/images/01_yTHxFxh-crop-c0-5__0-5-400x400-70.jpg",
+                          "full_size": "http://192.168.238.124:8000/media/images/01_yTHxFxh.jpg",
+                          "thumbnail": "http://192.168.238.124:8000/media/__sized__/images/01_yTHxFxh-thumbnail-100x100-70.jpg"
+                      },
+                      "image_ppoi": "(0.5, 0.5)",
+                      "product": 1
+                  }
+              ],
+              "ratings": [
+                  1
+              ],
+              "units": [
+                  1,
+                  4
+              ]
+          }
+      ]
+  }

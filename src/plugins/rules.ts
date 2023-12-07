@@ -17,3 +17,10 @@ export const emailRules = [
         return 'E-mail must be valid.'
     },
 ]
+
+export const phoneRules = [
+    (v: any) => !!v || 'Field is required.',
+    (v: string) => checkTextPhone(v) || 'Invalid phone number format'
+]
+
+export const checkTextPhone = (str: string) => /^(\+\d{12})$/.test(str)

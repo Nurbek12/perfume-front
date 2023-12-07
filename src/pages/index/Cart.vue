@@ -1,26 +1,26 @@
 <template>
 <v-container>
     <v-row>
-        <v-col cols="12" sm="6" v-if="(getters.cart as any[]).length !== 0">
-            <v-card variant="flat">
+        <v-col cols="12" sm="6" v-if="(getters.cart as any[]).length !== 0" class="d-flex justify-center">
+            <v-card variant="flat" v-if="getters.isLogged">
                 <v-card-title class="text-primary">Форма заказа</v-card-title>
                 <v-card-text>
                     <v-row class="pa-1">
-                        <v-col cols="6" class="pa-2">
+                        <v-col cols="12" md="6" class="pa-2">
                             <v-text-field variant="solo" bg-color="background" flat hide-details density="comfortable" placeholder="Имя и Фамилия">
                                 <template #prepend-inner>
                                     <v-icon size="20">mdi-account-outline</v-icon>
                                 </template>
                             </v-text-field>
                         </v-col>
-                        <v-col cols="6" class="pa-2">
+                        <v-col :cols="12" md="6" class="pa-2">
                             <v-text-field variant="solo" bg-color="background" flat hide-details density="comfortable" placeholder="Телефон">
                                 <template #prepend-inner>
                                     <v-icon size="20">mdi-phone</v-icon>
                                 </template>
                             </v-text-field>
                         </v-col>
-                        <v-col cols="6" class="pa-2">
+                        <v-col cols="12" md="6" class="pa-2">
                             <v-select transition="fade-transition" hide-details density="comfortable" variant="solo" bg-color="background" flat placeholder="Время доставки"
                                 :items="['с 09:00 до 12:00','с 12:00 до 15:00','с 15:00 до 18:00','с 18:00 до 21:00']">
                                 <template #prepend-inner>
@@ -28,7 +28,7 @@
                                 </template>
                             </v-select>
                         </v-col>
-                        <v-col cols="6" class="pa-2">
+                        <v-col cols="12" md="6" class="pa-2">
                             <v-select transition="fade-transition" variant="solo" bg-color="background" flat hide-details density="comfortable" placeholder="Способ доставки"
                                 :items="['Срочная - 20000 сум (в течение дня)','Не срочная  - 0 сум (в течение 3-х дней)','Самовывоз - 0 сум']">
                                 <template #prepend-inner>
@@ -49,6 +49,7 @@
                     </v-row>
                 </v-card-text>
             </v-card>
+            <app-login v-else />
         </v-col>
         <v-col cols="12" :sm="(getters.cart as any[]).length === 0 ? 12 : 6">
             <v-card variant="flat">
@@ -95,8 +96,8 @@
                                         <v-btn flat color="primary" size="40" @click="commit('ADD_TO_CART', item)"><v-icon>mdi-plus</v-icon></v-btn>
                                     </div> -->
                                     <div class="d-flex gap-1">
-                                        <v-btn flat color="primary" size="40" @click="commit('ADD_TO_CART', item)"><v-icon>mdi-plus</v-icon></v-btn>
-                                        <v-btn flat color="primary" size="40" @click="commit('REMOVE_TO_CART', item)"><v-icon>mdi-minus</v-icon></v-btn>
+                                        <v-btn flat color="primary" size="30" @click="commit('ADD_TO_CART', item)"><v-icon>mdi-plus</v-icon></v-btn>
+                                        <v-btn flat color="primary" size="30" @click="commit('REMOVE_TO_CART', item)"><v-icon>mdi-minus</v-icon></v-btn>
                                         <!-- <v-sheet flat size="40" class="px-4 d-flex justify-center align-center gap-1 rounded" border="">
                                             <div>
                                                 {{ item.quantity }}x =
@@ -130,18 +131,25 @@
 </template>
 
 <script setup lang="ts">
+import { defineEmits, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useI18n } from 'vue-i18n'
+import AppLogin from '../../components/app-login-dialog.vue'
 import { IProduct } from '../../interfaces'
+import { IOrder } from '../../interfaces'
 
 const { t } = useI18n()
 const { getters, commit } = useStore()
 const headers = [
   { title: "Товар", key: "product", sortable: false },
   { title: "Цена", key: "price", sortable: false },
-//   { title: "Обшая", key: "sum", sortable: false },
   { title: "Кол-во", key: "count", sortable: false },
-];
+]
+
+const emits = defineEmits(['loaded'])
+onMounted(() => {
+    emits('loaded')
+})
 </script>
 
 <style>

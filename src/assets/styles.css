@@ -122,3 +122,9 @@ input::placeholder {
   background: rgb(var(--v-theme-primary));
   border-radius: 4px;
 }
+
+.logo-text{
+  font-family: "Cosmith", sans-serif !important;
+  color: rgb(var(--v-theme-primary)) !important;
+  font-size: 2rem;
+}

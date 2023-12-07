@@ -6,28 +6,47 @@
         elevation="0"
         color="primary"
         variant="text"
-        base-color="primary">
-        <v-list-group v-for="c1,i in links" :key="i">
-            <template #activator="{ props }">
-                <v-list-item v-bind="props" class="text-body-2">
-                    <template #append v-if="!c1.child" />
-                    {{ c1.title }}
-                </v-list-item>
-            </template>
-
-            <v-list-group v-for="c2,j in c1?.child||[]" :key="j">
-                <template #activator="{ props }">
-                    <v-list-item v-bind="props" height="10" class="text-body-2">{{ c2.title }}</v-list-item>
-                </template>
-
-                <v-list-item class="text-body-2" link v-for="c3,k in c2?.child||[]" :key="k">
-                    {{ c3.title }}
-                </v-list-item>
-            </v-list-group>
-        </v-list-group>
+        base-color="primary"
+        :items="getters.categories"
+        item-children="children"
+        v-bind="({ 'onClick:open': openCategory } as any)"
+        :item-props="item_props"
+        :item-value="`id`"
+        :item-title="`name_${locale}`">
     </v-list>
 </template>
 
 <script setup lang="ts">
-import { links } from '../products'
+import { useStore } from 'vuex'
+import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const { locale } = useI18n()
+const { getters } = useStore()
+
+const openCategory = (e: {event: any, path: string[]}) => {
+    const cl = e?.event?.target?.className
+    
+    if(cl !== 'v-list-item-title' || !e.path) return
+    
+    const query: any = {};
+    e.path.map((c, i) => {
+        query[['category', 'category_1', 'category_2'][i]] = c
+    })
+    // console.log(e);
+    
+    router.push({
+        path: '/products',
+        query: query
+    })
+}
+
+const item_props = (item: any) => {
+    const iprops: any = {
+        link: true
+    }
+    if(item.level >= 2 || item?.children?.length === 0) iprops.appendIcon = ''
+    return iprops
+}
 </script>

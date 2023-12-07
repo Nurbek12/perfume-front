@@ -4,7 +4,8 @@
       <v-row>
         <v-col cols="12" class="py-0 d-flex justify-space-between align-center">
             <router-link class="text-h6 text-primary text-decoration-none font-weight-normal" to="/">
-              <v-img width="150" src="/logos/logo.png"></v-img>
+              <!-- <v-img width="150" src="/logos/logo.png"></v-img> -->
+              <span class="logo-text">Perfumes</span>
             </router-link>
             <div class="d-flex gap-1">
               <template v-if="!mobile">
@@ -79,7 +80,7 @@
                 </v-list>
               </v-menu> -->
               <v-btn variant="flat" size="40" color="primary" to="/profile">
-                <v-icon>mdi-login-variant</v-icon>
+                <v-icon>mdi-{{getters.isLogged?'account-outline':'login-variant'}}</v-icon>
               </v-btn>
           </div>
         </v-col>
@@ -94,7 +95,9 @@ import { useDisplay } from 'vuetify'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import vuetify from "../plugins/vuetify"
+import { useStore } from 'vuex'
 
+const { getters } = useStore()
 const { locale, t } = useI18n()
 
 const languages = [

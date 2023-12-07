@@ -90,11 +90,11 @@
             <v-col cols="12">
                 <v-sheet width="100%" class="pa-4 px-2">
                     <v-list-item v-for="i in 3" :key="i" class="py-3">
-                        <template #prepend>
+                        <!-- <template #prepend>
                             <v-avatar size="50" color="primary">
                                 Д
                             </v-avatar>
-                        </template>
+                        </template> -->
                         <v-list-item-title>Далеко-далеко за словесными горами.</v-list-item-title>
                         <v-list-item-subtitle>Далеко-далеко за, словесными горами в стране гласных и согласных живут рыбные тексты. Переписали, проектах великий ручеек текст ты о переулка коварный даль необходимыми страну букв текстами вопроса деревни там ведущими заголовок. Рукописи напоивший то рыбного заманивший по всей семантика переписали послушавшись последний сих первую грамматики это бросил страну деревни, до парадигматическая ручеек себя.</v-list-item-subtitle>
                     </v-list-item>
@@ -112,11 +112,10 @@ import AppLinksList from '../../components/app-links-list.vue'
 import { Splide, SplideSlide, Options } from '@splidejs/vue-splide'
 import { IProduct } from '../../interfaces'
 import { perfumes } from '../../products'
-import { ref } from 'vue'
+import { ref, onMounted, defineEmits } from 'vue'
 import { useDisplay } from 'vuetify'
 
 const mobile = useDisplay().mobile
-
 const page1 = ref(1)
 const icons2 = [
     { icon: "mdi-airplane", title: "Free Shipping", subtitle: "lorem ipsum dolor emit" },
@@ -143,4 +142,9 @@ const slideOptions: Options = {
         }
   }
 }
+
+const emits = defineEmits(['loaded'])
+onMounted(() => {
+    emits('loaded')
+})
 </script>

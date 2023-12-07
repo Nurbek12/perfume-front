@@ -6,9 +6,10 @@ import Cart from '../pages/index/Cart.vue'
 // import Saved from '../pages/index/Saved.vue'
 import Product from '../pages/index/Product.vue'
 import Products from '../pages/index/Products.vue'
-import Login from '../pages/index/Login.vue'
+// import Login from '../pages/index/Login.vue'
 import Profile from '../pages/index/Profile.vue'
 import Gifts from '../pages/index/Gifts.vue'
+import Brand from '../pages/index/Brands.vue'
 
 // import Admin from '../pages/admin/Admin.vue'
 // import Dashboard from '../pages/admin/Dashboard.vue'
@@ -27,12 +28,13 @@ const routes: RouteRecordRaw[] = [
     //     children: [
     { path: '/', name: "home", component: Home },
     { path: '/cart', name: "cart", component: Cart },
-    { path: '/products', name: "client-products", component: Products },
+    { path: '/products', name: "products", component: Products },
     // { path: 'saved', name: "saved", component: Saved },
-    { path: '/login', name: "login", component: Login },
+    // { path: '/login', name: "login", component: Login },
     { path: '/product/:id', name: "product", component: Product },
     { path: '/profile', name: "profile", component: Profile },
     { path: '/gifts', name: "gifts", component: Gifts },
+    { path: '/brand/:id', name: "brand", component: Brand },
     //     ]
     // },
     // { 

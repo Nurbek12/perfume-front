@@ -10,7 +10,7 @@ lerna-debug.log*
 node_modules
 Tasks.todo
 .vscode
-src/api
+.env
 src/pages/admin
 src/p1
 public/chess

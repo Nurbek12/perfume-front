@@ -12,7 +12,8 @@ export default createI18n({
             sum: "sum",
             worktime: "Working Time",
             delivery: "Delivery service",
-            total_sum: "Total",
+            total_sum: "Total price",
+            no_data: "Empty",
         },
         ru: {
             links: links.ru,
@@ -21,6 +22,7 @@ export default createI18n({
             worktime: "Рабочее время",
             delivery: "Служба доставки",
             total_sum: "Обшая сумма",
+            no_data: "Пусто",
         },
         uz: {
             links: links.uz,
@@ -29,6 +31,7 @@ export default createI18n({
             worktime: "Ish vaqti",
             delivery: "Yetkazib berish xizmati",
             total_sum: "Jami summa",
+            no_data: "Ma'lumotlar topilmadi",
         }
     }
 })

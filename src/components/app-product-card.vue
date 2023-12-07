@@ -1,15 +1,20 @@
 <template>
   <v-card width="100%" flat class="text-center">
     <v-card-text>
-        <v-img :src="product.image" height="150" />
+        <router-link :to="`/product/${product.id}`">
+            <v-avatar size="100%" rounded>
+                <v-img :src="product.images?.[0]?.image?.full_size||'/img/nophoto.jpg'" height="170" />
+            </v-avatar>
+        </router-link>
     </v-card-text>
-    <router-link :to="`product/${product.id}`" class="text-primary text-decoration-none text">
+    <router-link :to="`/product/${product.id}`" class="text-primary text-decoration-none text">
         <v-card-title class="py-0 text-subtitle-1">{{ product.title }}</v-card-title>
     </router-link>
-    <v-card-text class="py-0 text-overflow-3">Далеко-далеко за словесными горами в стране гласных и согласных, живут рыбные тексты. Взобравшись дал скатился толку домах речью, переулка имеет пустился гор.</v-card-text>
+    <!-- balance :  0 brand :  1 category :  6 colors :  [1]:  id :  1 images :  (2) [1, 2] is_gift :  false is_published :  false price :  27000 rating :  "2.00" ratings :  [1] reviews :  [] title :  "Test Product" usage :  "Test Usage" -->
+    <v-card-text class="py-0 text-overflow-3">{{ product[`description_en`] }}</v-card-text>
     <v-card-text class="pb-0 pt-2 text-h5 text-primary">{{product.price - (product.price * product.discount / 100)}} {{ t('sum') }} <span v-show="product.discount" class="text-medium-emphasis text-subtitle-1 text-decoration-line-through" style="line-height: 0">{{ product.price }} {{ t('sum') }}</span></v-card-text>
     <v-card-text class="py-0 pt-2">
-        <v-rating readonly color="amber" hover :length="5" :size="32" :model-value="(product.rate as any)" active-color="amber" />
+        <v-rating readonly color="amber" hover :length="5" :size="32" :model-value="(product.rating as any)" active-color="amber" />
     </v-card-text>
     <v-card-actions class="d-flex justify-space-between">
         <div class="w-100 mr-2">
@@ -33,7 +38,7 @@ import { IProduct } from '../interfaces'
 import { useStore } from 'vuex'
 import { useI18n } from 'vue-i18n'
 
-const { t } = useI18n()
+const { locale, t } = useI18n()
 
 const { getters, commit } = useStore()
 const { product } = defineProps<{ product: IProduct }>()

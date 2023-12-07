@@ -1,16 +1,23 @@
 <template>
   <v-slide-group show-arrows="desktop">
-    <v-slide-group-item v-for="n in 25" :key="n">
-      <v-sheet height="120" class="mr-3 d-flex justify-center align-center text-h4 rounded" width="220" color="primary">Brand {{n}}</v-sheet>
+    <v-slide-group-item v-for="brand in getters.brands" :key="brand.id">
+      <div class="d-flex flex-column align-center">
+        <router-link :to="`/brand/${brand.id}`">
+          <v-sheet v-ripple border height="120" class="mr-3 d-flex justify-center align-center text-h4 rounded" width="220" color="primary">
+            <v-img height="100%" width="100%" :src="brand.image" cover></v-img>  
+          </v-sheet>
+          <span class="text-caption text-medium-emphasis">{{ brand.name }}</span>
+        </router-link>
+      </div>
     </v-slide-group-item>
     <template #next>
       <v-btn size="40" variant="flat" color="primary">
-        <v-icon>mdi-arrow-right</v-icon>
+        <v-icon>mdi-chevron-right</v-icon>
       </v-btn>
     </template>
     <template #prev>
       <v-btn size="40" variant="flat" color="primary">
-        <v-icon>mdi-arrow-left</v-icon>
+        <v-icon>mdi-chevron-left</v-icon>
       </v-btn>
     </template>
   </v-slide-group>
@@ -44,7 +51,9 @@
 </template>
 
 <script lang="ts" setup>
+import { useStore } from 'vuex'
 
+const { getters } = useStore()
 </script>
 
 <style>
