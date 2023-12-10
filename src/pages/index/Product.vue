@@ -108,13 +108,13 @@
                 <v-sheet width="100%" class="py-4 px-2">
                     <div class="d-flex align-center justify-space-between">
                         <span class="pl-2 text-h5 text-primary">Отзывы ({{ product?.ratings?.length }})</span>
-                        <v-btn v-if="getters.isLogged" @click="dialog=true" size="35" color="primary" variant="flat">
+                        <v-btn :disabled="disableCommentButton" v-if="getters.isLogged" @click="dialog=true" size="35" color="primary" variant="flat">
                             <v-icon>mdi-chat-outline</v-icon>
                         </v-btn>
                     </div>
                     <v-list-item v-for="r,i in (product?.ratings as IReview[])" :key="i" class="py-3 px-3">
                         <v-list-item-title class="d-flex">
-                            <span class="mr-2">{{ r.user }}</span>
+                            <span class="mr-2">{{ r.user.first_name }}</span>
                             <span class="mt-0">
                                 <v-rating :model-value="r.rate" readonly :length="5" size="small" density="compact" color="amber"></v-rating>
                             </span>
@@ -178,6 +178,10 @@ const save = (item: IProduct) => {
     else commit('REMOVE_TO_SAVE', item)
 }
 
+const disableCommentButton = computed(() => {
+    return product.value.ratings.some((r: any) => r.user.id === getters.user.id)
+})
+
 const images = computed(() => {
     if(!!selectedColor.value) return [product.value?.units?.find((c: any) => c.color === selectedColor.value)]
     else return product.value?.images
@@ -191,7 +195,7 @@ const setColor = (colorid: number) => {
 
 const init = async () => {
     loading.value = true
-    const { data } = await getProductById(params.id as any, 'expand=images,colors,reviews,category,brand,units')
+    const { data } = await getProductById(params.id as any, 'expand=images,colors,ratings,category,brand,units')
     // console.log(data);
     product.value = data
     // product.value = productid
@@ -202,7 +206,7 @@ const init = async () => {
 
 const handleReview = async () => {
     const { data } = await createReview({
-        user: getters.user.id as string,
+        user: getters.user.id as any,
         product: parseInt(params.id as string),
         ...review,
     })

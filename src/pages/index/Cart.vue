@@ -127,7 +127,7 @@
                         </v-col>
                         <v-col cols="12" md="12" class="pa-2">
                             <v-select v-model="formData.delivery_type" transition="fade-transition" variant="solo" bg-color="background" flat hide-details density="comfortable" placeholder="Способ доставки"
-                                :items="['Срочная - 20000 сум (в течение дня)','Не срочная  - 0 сум (в течение 3-х дней)','Самовывоз - 0 сум']">
+                                :items="types">
                                 <template #prepend-inner>
                                     <v-icon size="20">mdi-truck-delivery</v-icon>
                                 </template>
@@ -173,6 +173,12 @@ const headers = [
     { title: "Цвет", key: "color", sortable: false },
     { title: "Цена", key: "price", sortable: false },
     { title: "Кол-во", key: "count", sortable: false },
+]
+
+const types = [
+    { title: 'Срочная - 20000 сум (в течение дня)', value: 'urgent' },
+    { title: 'Не срочная  - 0 сум (в течение 3-х дней)', value: 'not_urgent' },
+    { title: 'Самовывоз - 0 сум', value: 'pickup' },
 ]
 
 const getColor = (item: IProduct, id: number): IProductColor => {

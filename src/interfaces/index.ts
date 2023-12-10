@@ -76,7 +76,7 @@ export interface IProduct {
 }
 
 export interface IReview {
-    user: IUser | string
+    user: IUser
     review: string
     date?: Date | string
     rate: number
