@@ -66,7 +66,7 @@
                         {{ t('no_data') }}
                     </v-col>
                 </template>
-                <v-col cols="12" sm="6" md="4" class="pa-1" v-for="perfume,i in items" :key="i">
+                <v-col cols="12" sm="6" md="4" lg="3" class="pa-1" v-for="perfume,i in items" :key="i">
                     <app-product-card :product="perfume" />
                 </v-col>
             </v-row>

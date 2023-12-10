@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
-import Index from '../pages/index/Index.vue'
+// import Index from '../pages/index/Index.vue'
 import Home from '../pages/index/Home.vue'
 import Cart from '../pages/index/Cart.vue'
 // import Saved from '../pages/index/Saved.vue'
