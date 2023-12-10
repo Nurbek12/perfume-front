@@ -2,7 +2,7 @@
 <v-container>
     <v-row>
         <v-col cols="12" sm="6">
-            <v-skeleton-loader :loading="loading" type="image,image,button,button,button,button">
+            <v-skeleton-loader :loading="loading" type="image,image">
                 <v-card flat width="100%" class="pa-2">
                     <v-avatar rounded size="100%">
                         <v-img height="400" width="100%" :src="brand?.image||'/img/nophoto.jpg'"></v-img>
@@ -11,11 +11,11 @@
             </v-skeleton-loader>
         </v-col>
         <v-col cols="12" sm="6">
-            <v-skeleton-loader :loading="loading" color="transparent" type="image,image,button,button,button,button">
+            <v-skeleton-loader :loading="loading" color="transparent" type="article,article">
                 <v-card flat width="100%" color="transparent">
                     <v-card-title class="text-primary">{{ brand?.name }}</v-card-title>
                     <v-card-text>
-                        {{ brand && brand[`description_${locale}`] }}
+                        {{ brand && brand[`description_${locale as "uz"|"en"|"ru"}`] }}
                     </v-card-text>
                 </v-card>
             </v-skeleton-loader>
@@ -29,17 +29,17 @@
             </div>
             <!-- <v-pagination density="compact" length="4" variant="flat" active-color="primary"/> -->
         </v-col>
-        <!-- <template v-if="loading">
+        <template v-if="loading">
             <v-col cols="12" sm="6" md="4" class="pa-1" v-for="i in 3" :key="i">
                 <v-skeleton-loader type="image,article,button,button,button" />
             </v-col>
         </template>
         <template v-if="items.length===0&&!loading">
-            <v-col cols="12" class="pa-1 text-center">
+            <v-col cols="12" class="pa-1 text-start">
                 {{ t('no_data') }}
             </v-col>
-        </template> -->
-        <v-col cols="12" sm="6" md="4" lg="3" class="pa-1" v-for="perfume,i in perfumes" :key="i">
+        </template>
+        <v-col cols="12" sm="6" md="4" lg="3" class="pa-1" v-for="perfume,i in items" :key="i">
             <app-product-card :product="perfume" />
         </v-col>
     </v-row>
@@ -49,35 +49,26 @@
 <script lang="ts" setup>
 import { ref, computed, defineEmits, onMounted } from 'vue'
 import AppProductCard from '../../components/app-product-card.vue'
-import { useStore } from 'vuex'
+// import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
-import { IProduct } from '../../interfaces'
-import { getProductById } from '../../api/products'
+import { IBrand, IProduct } from '../../interfaces'
+import { getAllProducts } from '../../api/products'
+import { getBrandById } from '../../api/brands'
 import { useI18n } from 'vue-i18n'
-import { perfumes, brands } from '../../products'
+// import { perfumes, brands } from '../../products'
 
 const { locale, t } = useI18n()
-const brand = ref<any>(null)
+const brand = ref<IBrand|null>(null)
 
 const page = ref(1)
-const perpage = ref(9)
+const perpage = ref(12)
 const totalCount = ref(0)
 const next = ref(true)
 const prev = ref(true)
-const items = ref([])
+const items = ref<IProduct[]>([])
 const loading = ref(false)
-const currentImage = ref(0)
-const product = ref<IProduct|any>({})
 
 const { params } = useRoute()
-const { getters, commit } = useStore()
-const cart_item = (id: number) => getters.cart.find((p: any) => p.id === id)
-const saved_item = (id: number) => !!getters.saved.find((c: any) => c.id === id)
-const save = (item: IProduct) => {
-    if(!saved_item(item.id!)) commit('ADD_TO_SAVE', item)
-    else commit('REMOVE_TO_SAVE', item)
-}
-
 const perpagetext = computed(() => {
     const p = (page.value - 1) * perpage.value;
     return `${p + 1}-${p + items.value.length} / ${totalCount.value}`
@@ -85,10 +76,13 @@ const perpagetext = computed(() => {
 
 const init = async () => {
     loading.value = true
-    // const { data } = await getProductById(params.id as any, 'expand=images,colors,reviews,category,brand')
-    // console.log(data);
-    // product.value = data
-    brand.value = brands.results[0]
+    const [br, prs] = await Promise.all([
+        getBrandById(params.id as string),
+        getAllProducts(`expand=images,colors&limit=10&brand=${params.id}&page=${page.value}&limit=${perpage.value}`)])
+    console.log(br.data, prs.data);
+    items.value = prs.data.results
+    totalCount.value = prs.data.count
+    brand.value = br.data
     loading.value = false
 }
 

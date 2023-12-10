@@ -9,16 +9,16 @@
                         :direction="mobile?'horizontal':'vertical'"
                         color="primary">
                         <v-tab>
-                            <v-icon start size="20">mdi-account</v-icon>
-                            <span class="text-body-2">Профиль</span>
+                            <v-icon start size="20">mdi-heart-outline</v-icon>
+                            <span class="text-body-2">Избранные</span>
                         </v-tab>
                         <v-tab>
                             <v-icon start size="20">mdi-shopping</v-icon>
                             <span class="text-body-2">Покупки</span>
                         </v-tab>
                         <v-tab>
-                            <v-icon start size="20">mdi-heart-outline</v-icon>
-                            <span class="text-body-2">Избранные</span>
+                            <v-icon start size="20">mdi-account</v-icon>
+                            <span class="text-body-2">Профиль</span>
                         </v-tab>
                     </v-tabs>
                 </v-card-text>
@@ -27,16 +27,16 @@
         <v-col cols="12" sm="6" md="8">
             <v-window v-model="tab" :touch="false">
                 <v-window-item>
-                    <div  class="w-100 d-flex justify-center">
-                        <app-profile v-if="getters.isLogged" />
-                        <app-login v-else />
-                    </div>
+                    <app-saved />
                 </v-window-item>
                 <v-window-item>
                     <app-profile-orders />
                 </v-window-item>
                 <v-window-item>
-                    <app-saved />
+                    <div  class="w-100 d-flex justify-center">
+                        <app-profile v-if="getters.isLogged" />
+                        <app-login v-else />
+                    </div>
                 </v-window-item>
             </v-window>
         </v-col>

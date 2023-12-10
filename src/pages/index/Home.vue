@@ -43,7 +43,7 @@
             </v-col>
             <v-col cols="12">
                 <Splide v-model:page="page1" :options="slideOptions" aria-label="My Favorite Images">
-                    <SplideSlide v-for="perfume, i in perfumes" :key="i">
+                    <SplideSlide v-for="perfume, i in p_news" :key="i">
                         <app-product-card :product="perfume" />
                     </SplideSlide>
                 </Splide>
@@ -79,7 +79,7 @@
             </v-col>
             <v-col cols="12">
                 <Splide :options="slideOptions" aria-label="My Favorite Images">
-                    <SplideSlide v-for="perfume, i in perfumes" :key="i">
+                    <SplideSlide v-for="perfume, i in p_popular" :key="i">
                         <app-product-card :product="perfume" />
                     </SplideSlide>
                 </Splide>
@@ -111,12 +111,15 @@ import AppProductCard from '../../components/app-product-card.vue'
 import AppLinksList from '../../components/app-links-list.vue'
 import { Splide, SplideSlide, Options } from '@splidejs/vue-splide'
 import { IProduct } from '../../interfaces'
-import { perfumes } from '../../products'
+// import { perfumes } from '../../products'
 import { ref, onMounted, defineEmits } from 'vue'
 import { useDisplay } from 'vuetify'
+import { getAllProducts } from '../../api/products'
 
 const mobile = useDisplay().mobile
 const page1 = ref(1)
+const p_news = ref<IProduct[]>([])
+const p_popular = ref<IProduct[]>([])
 const icons2 = [
     { icon: "mdi-airplane", title: "Free Shipping", subtitle: "lorem ipsum dolor emit" },
     { icon: "mdi-diamond-stone", title: "Jobs Rich Free", subtitle: "lorem ipsum dolor emit" },
@@ -142,6 +145,16 @@ const slideOptions: Options = {
         }
   }
 }
+
+const init = async () => {
+    const [news, popular] = await Promise.all([getAllProducts('&expand=units,images&limit=10&filter=&ordering=rating'), getAllProducts('&expand=units,images&limit=10&filter=&ordering=created_at')])
+
+    // console.log(news.data, popular.data);
+    p_news.value = news.data.results
+    p_popular.value = popular.data.results
+}
+
+init()
 
 const emits = defineEmits(['loaded'])
 onMounted(() => {

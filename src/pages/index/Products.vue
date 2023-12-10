@@ -83,7 +83,7 @@ import { ref, computed, reactive, defineEmits, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
-import { products as data } from '../../products'
+// import { products as data } from '../../products'
 
 const router = useRouter()
 const { query } = useRoute()
@@ -150,7 +150,7 @@ const filterBtnDisabled = computed(() => {
 const init = async () => {
     if(!!query.category) router.replace({ query: {} })
     loading.value = true
-    // const { data } = await getAllProducts(`expand=images&${qs.value}`)
+    const { data } = await getAllProducts(`expand=images,units,colors&${qs.value}`)
     items.value = data.results as any
     totalCount.value = data.count
     prev.value = !data.previous

@@ -1,9 +1,10 @@
 import { createStore } from 'vuex'
 import cookie from 'js-cookie'
+import { IProduct } from '../interfaces'
 
 export default createStore({
     state: {
-        token: cookie.get('token') || '',
+        token: localStorage.getItem('token') || '',
         user: JSON.parse(localStorage.getItem('user') || "{}"),
         cart: JSON.parse(localStorage.getItem('cart') || "[]"),
         saved: JSON.parse(localStorage.getItem('saved') || "[]"),
@@ -53,9 +54,19 @@ export default createStore({
         ADD_TO_CART: (state, item) => {
             const itemIndex = state.cart.findIndex((p: any) => p.id === item.id)
 
-            if(itemIndex < 0) state.cart.push({...item, quantity: 1, selected: 0})
+            if(itemIndex < 0) state.cart.push({...item, quantity: 1, 
+                selected: item?.units?.[0]?.id || 0
+            })
             else state.cart[itemIndex].quantity += 1
 
+            localStorage.setItem('cart', JSON.stringify(state.cart))
+        },
+        SET_COLOR_CART: (state, payload: [IProduct, number]) => {
+            const [item, selected] = payload
+            const itemIndex = state.cart.findIndex((p: any) => p.id === item.id)
+
+            if(itemIndex < 0) state.cart.push({...item, quantity: 1, selected })
+            else state.cart[itemIndex].selected = selected
             localStorage.setItem('cart', JSON.stringify(state.cart))
         },
         REMOVE_TO_CART: (state, item) => {
@@ -70,6 +81,10 @@ export default createStore({
             state.saved.push(item)
             localStorage.setItem('saved', JSON.stringify(state.saved))
         },
+        CLEAR_CART: (state) => {
+            state.cart = []
+            localStorage.removeItem('cart')
+        },
         REMOVE_TO_SAVE: (state, item) => {
             const itemIndex = state.saved.findIndex((s: any) => s.id === item.id)
             state.saved.splice(itemIndex, 1)
@@ -81,7 +96,7 @@ export default createStore({
             localStorage.removeItem('user')
             localStorage.removeItem('token')
             // cookie.remove('token')
-            window.location.href = '/login'
+            // window.location.href = '/login'
         }
     },
 })

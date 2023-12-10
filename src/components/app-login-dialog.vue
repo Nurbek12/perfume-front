@@ -23,7 +23,7 @@
                                 <v-text-field v-model="loginData.mobile" :rules="phoneRules" placeholder="Телефон номер" density="comfortable" variant="solo" bg-color="background" flat hide-details />
                             </v-col>
                             <v-col cols="12">
-                                <v-btn block @click="handleLogin" :disabled="disabledLoginButton" variant="flat" color="primary">Отправить смс</v-btn>
+                                <v-btn block @click="handleLogin" :disabled="disabledLoginButton||loading" variant="flat" color="primary">Отправить смс</v-btn>
                             </v-col> 
                         </v-row>
                     </v-window-item>
@@ -37,7 +37,7 @@
                                 <v-otp-input v-model="loginData.token" class="pa-0 elevation-0" variant="solo" color="background" bg-color="background" flat density="comfortable" length="6" placeholder="-" />
                             </v-col>
                             <v-col cols="12">
-                                <v-btn block :disabled="disabledVerifyButton" @click="handleVerify" variant="flat" color="primary">Подтвердить код</v-btn>
+                                <v-btn block :disabled="disabledVerifyButton||loading" @click="handleVerify" variant="flat" color="primary">Подтвердить код</v-btn>
                             </v-col>
                         </v-row>
                     </v-window-item>
@@ -48,10 +48,10 @@
                                 <span class="text-subtitle-1">Добро пожаловать, Введите имя</span>
                             </v-col>
                             <v-col cols="12">
-                                <v-text-field v-model="loginData.name" :rules="nameRule" placeholder="Имя и фамилия" density="comfortable" variant="solo" bg-color="background" flat hide-details />
+                                <v-text-field v-model="loginData.first_name" :rules="nameRule" placeholder="Имя и фамилия" density="comfortable" variant="solo" bg-color="background" flat hide-details />
                             </v-col>
                             <v-col cols="12">
-                                <v-btn block @click="handleRegister" variant="flat" color="primary" :disabled="disabledRegisterButton">Зарегистрироваться</v-btn>
+                                <v-btn block @click="handleRegister" variant="flat" color="primary" :disabled="disabledRegisterButton||loading">Зарегистрироваться</v-btn>
                             </v-col>
                         </v-row>
                     </v-window-item>
@@ -69,42 +69,53 @@ import { useStore } from 'vuex'
 
 const { commit } = useStore()
 const step = ref(1)
+const loading = ref(false)
 const loginData = reactive({
     mobile: '',
     token: '',
-    name: ''
+    first_name: ''
 })
 const user = ref<any>(null)
 
 const disabledLoginButton = computed(() => !loginData.mobile?.trim() || !checkTextPhone(loginData.mobile))
 const disabledVerifyButton = computed(() => loginData.token?.length < 6)
-const disabledRegisterButton = computed(() => !loginData.name?.trim())
+const disabledRegisterButton = computed(() => !loginData.first_name?.trim())
 
 const handleLogin = async () => {
-    // await login({mobile: loginData.mobile})
-    step.value += 1
+    loading.value = true
+    await login({mobile: loginData.mobile})
+    loading.value = false
+    step.value = 2
 }
 
 const handleVerify = async () => {
-    // const { data } = await verify(loginData)
-    // console.log(data);
+    loading.value = true
+    const { data } = await verify(loginData)
+    console.log(data);
+    loading.value = false
     // if(!data?.token) return
-    // const i = await me(data.token)
-    // if(i.data['IS_REGISTERED_PATH']) return commit('SET_TOKEN', data.token)
-
-    // user.value = {...i.data, token: data.token}
-    step.value += 1
+    const i = await me(data.token)
+    if(!i.data?.[0]) return
+    const u = i.data[0]
+    if(u.mobile_verified) return commit('SET_TOKEN', data.token)
+    console.log(u);
+    user.value = {...u, token: data.token}
+    step.value = 3
 }
 
 const handleRegister = async () => {
-    // const { data } = await register(user.value.id, {
-    //     name: loginData.name,
-    //     "IS_REGISTERED_PATH": true
-    // })
+    loading.value = true
+    const { data } = await register(user.value.id, { // "97fb8db9-fa2d-4a2a-a71d-24bfa2ad3bfc"
+        first_name: loginData.first_name,
+        mobile: loginData.mobile,
+        mobile_verified: true
+    }, user.value.token) //'cefdaf6ba2847dfc86a6b07ff933d319302c6117'
+    // console.log(data);
+    loading.value = false
     
-    // commit('SET_USER', data)
-    // commit('SET_TOKEN', user.value.token)
-    // router.push()
-    step.value = 1
+    commit('SET_USER', data)
+    commit('SET_TOKEN', user.value.token)
+    // router.push('/')
+    // step.value = 1
 }
 </script>

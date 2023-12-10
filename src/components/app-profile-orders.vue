@@ -95,9 +95,12 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useStore } from 'vuex'
 import { useI18n } from 'vue-i18n'
+import { getMyOrders } from '../api/orders'
 
 const dialog = ref(false)
+const { getters } = useStore()
 const { t } = useI18n()
 const headers = [
     { title: 'Способ доставки', key: 'type_delevery', sortable: false },
@@ -119,8 +122,16 @@ const products = [
     { title: 'Gucci Guilty Pour Femme', count: 1, color: null },
     { title: 'Calvin Klein Euphoria', count: 2, color: {"name": "Blue", "hex": "#0000FF"} },
 ]
-const items = [
+const items = ref([
     { id: 1, type_delevery: 'Самовывоз', date_delevery: 'с 09:00 до 12:00', count: 4, time: '12.12.2023 12:12', status: 'в процессе', total: 3225000 },
     { id: 2, type_delevery: 'Не срочная', date_delevery: 'с 09:00 до 12:00', count: 1, time: '10.12.2023 12:12', status: 'отказано', total: 256800 },
-]
+])
+
+const init = async () => {
+    const { data } = await getMyOrders(getters.user.id)
+
+    console.log(data);
+}
+
+// if(!!getters.user?.id) init()
 </script>

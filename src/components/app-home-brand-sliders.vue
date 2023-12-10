@@ -2,11 +2,11 @@
   <v-slide-group show-arrows="desktop">
     <v-slide-group-item v-for="brand in getters.brands" :key="brand.id">
       <div class="d-flex flex-column align-center">
-        <router-link :to="`/brand/${brand.id}`">
+        <router-link :to="`/brand/${brand.id}`" class="text-center text-decoration-none">
           <v-sheet v-ripple border height="120" class="mr-3 d-flex justify-center align-center text-h4 rounded" width="220" color="primary">
             <v-img height="100%" width="100%" :src="brand.image" cover></v-img>  
           </v-sheet>
-          <span class="text-caption text-medium-emphasis">{{ brand.name }}</span>
+          <span class="text-body-2 text-medium-emphasis text-decoration-none">{{ brand.name }}</span>
         </router-link>
       </div>
     </v-slide-group-item>

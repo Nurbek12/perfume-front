@@ -27,8 +27,8 @@
         <v-col cols="12" sm="6">
             <v-skeleton-loader :loading="loading" type="article, avatar, text, paragraph" min-height="100%" color="transparent">
                 <v-card variant="text">
-                    <span class="text-primary text-subtitle-1">{{ product.brand?.name }}</span>
-                    <v-card-title class="pa-0">{{ product.title }}</v-card-title>
+                    <span class="text-primary text-subtitle-1">{{ product?.brand?.name }}</span>
+                    <v-card-title class="pa-0">{{ product?.title }}</v-card-title>
                     <!-- <v-card-text class="px-0 py-2">{{ product.description }}</v-card-text> -->
                     <v-card-text class="px-0 py-2">        
                         <!-- <v-breadcrumbs :items="items" density="compact" class="pa-0">
@@ -37,22 +37,24 @@
                             </template>
                         </v-breadcrumbs> -->
                         <div class="d-flex align-center gap-1">
-                            <span>{{ product.category['name_'+locale] }}</span>
-                            <v-icon v-if="!!product.category.children?.[0]">mdi-chevron-right</v-icon>
-                            <span>{{ product.category.children?.[0]?.['name_'+locale] }}</span>
-                            <v-icon v-if="!!product.category.children?.[0]?.children?.[0]">mdi-chevron-right</v-icon>
-                            <span class="text-disabled">{{ product.category.children?.[0]?.children?.[0]?.['name_'+locale] }}</span>
+                            <span>{{ product?.category?.[`name_${locale as 'uz'|'en'|'ru'}`] }}</span>
+                            <v-icon v-if="!!product?.category?.children?.[0]">mdi-chevron-right</v-icon>
+                            <span>{{ product?.category?.children?.[0]?.[`name_${locale as 'uz'|'en'|'ru'}`] }}</span>
+                            <v-icon v-if="!!product?.category.children?.[0]?.children?.[0]">mdi-chevron-right</v-icon>
+                            <span class="text-disabled">{{ product?.category.children?.[0]?.children?.[0]?.[`name_${locale as 'uz'|'en'|'ru'}`] }}</span>
                         </div>
                     </v-card-text>
                     <v-card-text class="px-0 pt-2 pb-0">
-                        <v-radio-group inline v-model="selectedColor">
+                        <v-radio-group hide-details inline v-model="selectedColor">
                             <v-radio
-                                v-for="c in product.colors"
+                                v-for="c in product?.colors"
                                 :key="c.id"
                                 density="compact"
+                                v-show="c.name !== 'No Color'"
                                 class="text-caption"
                                 :label="c.name"
                                 :color="c.hex"
+                                @change="setColor(c.id)"
                                 :base-color="c.hex"
                                 :value="c.id" />
                         </v-radio-group>
@@ -64,9 +66,9 @@
                         <v-rating readonly color="amber" half-increments :length="5" :size="32" :model-value="(product.rating as any)" active-color="amber" />
                     </v-card-text>
                     <v-card-text class="pb-0 pt-2 pl-0 text-h5 text-primary">
-                        {{product.price - (product.price * product.discount / 100)}}
-                        <span v-show="product.discount" class="text-medium-emphasis text-subtitle-1 text-decoration-line-through" style="line-height: 0">
-                            {{ product.price }}
+                        {{product?.price! - (product?.price! * product?.discount! / 100)}}
+                        <span v-show="product?.discount" class="text-medium-emphasis text-subtitle-1 text-decoration-line-through" style="line-height: 0">
+                            {{ product?.price }}
                         </span>
                         {{ t('sum') }}
                     </v-card-text>
@@ -105,20 +107,20 @@
             <v-skeleton-loader :loading="loading" type="sentences,avatar, paragraph" min-height="100%">
                 <v-sheet width="100%" class="py-4 px-2">
                     <div class="d-flex align-center justify-space-between">
-                        <span class="pl-2 text-h5 text-primary">Отзывы (3)</span>
-                        <v-btn @click="dialog=true" size="35" color="primary" variant="flat">
+                        <span class="pl-2 text-h5 text-primary">Отзывы ({{ product?.ratings?.length }})</span>
+                        <v-btn v-if="getters.isLogged" @click="dialog=true" size="35" color="primary" variant="flat">
                             <v-icon>mdi-chat-outline</v-icon>
                         </v-btn>
                     </div>
-                    <v-list-item v-for="i in 3" :key="i" class="py-3 px-3">
+                    <v-list-item v-for="r,i in (product?.ratings as IReview[])" :key="i" class="py-3 px-3">
                         <v-list-item-title class="d-flex">
-                            <span class="mr-2">Анна Николаевна</span>
+                            <span class="mr-2">{{ r.user }}</span>
                             <span class="mt-0">
-                                <v-rating readonly :length="5" size="small" density="compact" color="amber"></v-rating>
+                                <v-rating :model-value="r.rate" readonly :length="5" size="small" density="compact" color="amber"></v-rating>
                             </span>
                         </v-list-item-title>
-                        <p class="text-caption pl-2">Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Реторический текстов власти о силуэт выйти океана коварных снова страна?</p>
-                        <v-list-item-subtitle class="my-1 d-flex justify-end text-caption">{{ new Date().toLocaleString() }}</v-list-item-subtitle>
+                        <p class="text-caption pl-2">{{ r.review }}</p>
+                        <v-list-item-subtitle class="my-1 d-flex justify-end text-caption">{{ r.date }}</v-list-item-subtitle>
                         <v-divider></v-divider>
                     </v-list-item>
                 </v-sheet>
@@ -131,13 +133,13 @@
             <v-card-text class="py-3">
                 <v-row>
                     <v-col cols="12">
-                        <v-textarea v-model="review.text" placeholder="Напишите отзыв" no-resize hide-details density="comfortable" variant="outlined" />
+                        <v-textarea v-model="review.review" placeholder="Напишите отзыв" no-resize hide-details density="comfortable" variant="outlined" />
                     </v-col>
                     <v-col cols="6">
                         <v-rating v-model="review.rate" hover :length="5" density="compact" color="amber"></v-rating>
                     </v-col>
                     <v-col cols="6" class="d-flex justify-end">
-                        <v-btn color="primary">Отправить</v-btn>
+                        <v-btn @click="handleReview" color="primary">Отправить</v-btn>
                     </v-col>
                 </v-row>
             </v-card-text>
@@ -150,9 +152,9 @@
 import { ref, reactive, computed, defineEmits, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
-import { productid } from '../../products'
-import { IProduct } from '../../interfaces'
-import { getProductById } from '../../api/products'
+// import { productid } from '../../products'
+import { IProduct, IProductUnit, IReview } from '../../interfaces'
+import { getProductById, createReview } from '../../api/products'
 import { useI18n } from 'vue-i18n'
 
 const { locale, t } = useI18n()
@@ -162,7 +164,7 @@ const currentImage = ref(0)
 const selectedColor = ref(0)
 const product = ref<IProduct|any>({})
 const review = reactive({
-    text: "",
+    review: "",
     rate: 0
 })
 
@@ -177,19 +179,36 @@ const save = (item: IProduct) => {
 }
 
 const images = computed(() => {
-    if(!!selectedColor.value) return [productid.units.find((c) => c.color === selectedColor.value)]
-    else return product.value.images
+    if(!!selectedColor.value) return [product.value?.units?.find((c: any) => c.color === selectedColor.value)]
+    else return product.value?.images
 })
 
+const setColor = (colorid: number) => {
+    const c: IProductUnit = product.value?.units.find((u: IProductUnit) => u.color === colorid)!
+    if(!c) return
+    commit('SET_COLOR_CART', [product.value, c.id])
+}
 
 const init = async () => {
     loading.value = true
-    // const { data } = await getProductById(params.id as any, 'expand=images,colors,reviews,category,brand,units')
+    const { data } = await getProductById(params.id as any, 'expand=images,colors,reviews,category,brand,units')
     // console.log(data);
-    // product.value = data
-    product.value = productid
+    product.value = data
+    // product.value = productid
     loading.value = false
-    if(productid.colors.length>0) selectedColor.value = productid.colors[0].id
+    console.log(data);
+    if(product.value.colors.length>0 && product.value.colors[0].name!=='No Color') selectedColor.value = product.value.colors[0].id
+}
+
+const handleReview = async () => {
+    const { data } = await createReview({
+        user: getters.user.id as string,
+        product: parseInt(params.id as string),
+        ...review,
+    })
+    console.log(data);
+    dialog.value = false
+    alert('Succesfully rated!')
 }
 
 init()
