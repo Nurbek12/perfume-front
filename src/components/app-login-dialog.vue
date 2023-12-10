@@ -89,18 +89,29 @@ const handleLogin = async () => {
 }
 
 const handleVerify = async () => {
-    loading.value = true
-    const { data } = await verify(loginData)
-    console.log(data);
-    loading.value = false
-    // if(!data?.token) return
-    const i = await me(data.token)
-    if(!i.data?.[0]) return
-    const u = i.data[0]
-    if(u.mobile_verified) return commit('SET_TOKEN', data.token)
-    console.log(u);
-    user.value = {...u, token: data.token}
-    step.value = 3
+    try {
+        loading.value = true
+        const { data } = await verify(loginData)
+        console.log(data);
+        // if(!data?.token) return
+        const i = await me(data.token)
+        console.log(i);
+        if(!i.data?.[0]) return
+        const u = i.data[0]
+        console.log(u);
+        if(u.mobile_verified) {
+            commit('SET_TOKEN', data.token)
+            commit('SET_USER', u)
+        } else{
+    
+            user.value = {...u, token: data.token}
+            step.value = 3
+        }
+    } catch (error) {
+        alert('Cod xato')
+    } finally {
+        loading.value = false
+    }
 }
 
 const handleRegister = async () => {

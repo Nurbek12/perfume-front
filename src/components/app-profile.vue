@@ -23,7 +23,7 @@ import { computed, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { IUser } from '../interfaces';
 
-const { getters } = useStore()
+const { getters, commit } = useStore()
 const formData = reactive<IUser>({
     ...getters.user
 })
@@ -36,6 +36,7 @@ const disableButton = computed(() => {
 
 const handleLogout = () => {
     if(!confirm('You should be log out?')) return
+    commit('LOGOUT')
     
 }
 
