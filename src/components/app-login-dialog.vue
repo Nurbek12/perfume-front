@@ -1,7 +1,7 @@
 <template>
     <v-card class="text-center" flat>
-        <v-card-title class="text-primary">Войти в аккоунт</v-card-title>
-        <!-- <v-card-title class="d-flex align-center justify-space-between">
+        <!-- <v-card-title class="text-primary">Войти в аккоунт</v-card-title>
+        <v-card-title class="d-flex align-center justify-space-between">
             <span>Login to Account</span>
             <v-btn
                 size="30"
@@ -10,7 +10,7 @@
                 @click="$emit('close-login')">
                 <v-icon size="20">mdi-close</v-icon>
             </v-btn>
-        </v-card-title> -->
+        </v-card-title>
         <v-card-text class="d-flex items-center h-100 pt-0 justify-start">
             <v-sheet max-width="400" width="100%" class="pa-2 border-0 rounded">
                 <v-window v-model="step">
@@ -57,76 +57,76 @@
                     </v-window-item>
                 </v-window>
             </v-sheet>
-        </v-card-text>
+        </v-card-text> -->
     </v-card>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, reactive } from 'vue'
-import { phoneRules, checkTextPhone, nameRule } from '../plugins/rules'
-import { login, verify, register, me } from '../api/user'
-import { useStore } from 'vuex'
+// import { ref, computed, reactive } from 'vue'
+// import { phoneRules, checkTextPhone, nameRule } from '../plugins/rules'
+// import { login, verify, register, me } from '../api/user'
+// import { useStore } from 'vuex'
 
-const { commit } = useStore()
-const step = ref(1)
-const loading = ref(false)
-const loginData = reactive({
-    mobile: '',
-    token: '',
-    first_name: ''
-})
-const user = ref<any>(null)
+// const { commit } = useStore()
+// const step = ref(1)
+// const loading = ref(false)
+// const loginData = reactive({
+//     mobile: '',
+//     token: '',
+//     first_name: ''
+// })
+// const user = ref<any>(null)
 
-const disabledLoginButton = computed(() => !loginData.mobile?.trim() || !checkTextPhone(loginData.mobile))
-const disabledVerifyButton = computed(() => loginData.token?.length < 6)
-const disabledRegisterButton = computed(() => !loginData.first_name?.trim())
+// const disabledLoginButton = computed(() => !loginData.mobile?.trim() || !checkTextPhone(loginData.mobile))
+// const disabledVerifyButton = computed(() => loginData.token?.length < 6)
+// const disabledRegisterButton = computed(() => !loginData.first_name?.trim())
 
-const handleLogin = async () => {
-    loading.value = true
-    await login({mobile: loginData.mobile})
-    loading.value = false
-    step.value = 2
-}
+// const handleLogin = async () => {
+//     loading.value = true
+//     await login({mobile: loginData.mobile})
+//     loading.value = false
+//     step.value = 2
+// }
 
-const handleVerify = async () => {
-    try {
-        loading.value = true
-        const { data } = await verify(loginData)
-        console.log(data);
-        // if(!data?.token) return
-        const i = await me(data.token)
-        console.log(i);
-        if(!i.data?.[0]) return
-        const u = i.data[0]
-        console.log(u);
-        if(u.mobile_verified) {
-            commit('SET_TOKEN', data.token)
-            commit('SET_USER', u)
-        } else{
+// const handleVerify = async () => {
+//     try {
+//         loading.value = true
+//         const { data } = await verify(loginData)
+//         console.log(data);
+//         // if(!data?.token) return
+//         const i = await me(data.token)
+//         console.log(i);
+//         if(!i.data?.[0]) return
+//         const u = i.data[0]
+//         console.log(u);
+//         if(u.mobile_verified) {
+//             commit('SET_TOKEN', data.token)
+//             commit('SET_USER', u)
+//         } else{
     
-            user.value = {...u, token: data.token}
-            step.value = 3
-        }
-    } catch (error) {
-        alert('Cod xato')
-    } finally {
-        loading.value = false
-    }
-}
+//             user.value = {...u, token: data.token}
+//             step.value = 3
+//         }
+//     } catch (error) {
+//         alert('Cod xato')
+//     } finally {
+//         loading.value = false
+//     }
+// }
 
-const handleRegister = async () => {
-    loading.value = true
-    const { data } = await register(user.value.id, { // "97fb8db9-fa2d-4a2a-a71d-24bfa2ad3bfc"
-        first_name: loginData.first_name,
-        mobile: loginData.mobile,
-        mobile_verified: true
-    }, user.value.token) //'cefdaf6ba2847dfc86a6b07ff933d319302c6117'
-    // console.log(data);
-    loading.value = false
+// const handleRegister = async () => {
+//     loading.value = true
+//     const { data } = await register(user.value.id, { // "97fb8db9-fa2d-4a2a-a71d-24bfa2ad3bfc"
+//         first_name: loginData.first_name,
+//         mobile: loginData.mobile,
+//         mobile_verified: true
+//     }, user.value.token) //'cefdaf6ba2847dfc86a6b07ff933d319302c6117'
+//     // console.log(data);
+//     loading.value = false
     
-    commit('SET_USER', data)
-    commit('SET_TOKEN', user.value.token)
-    // router.push('/')
-    // step.value = 1
-}
+//     commit('SET_USER', data)
+//     commit('SET_TOKEN', user.value.token)
+//     // router.push('/')
+//     // step.value = 1
+// }
 </script>

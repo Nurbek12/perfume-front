@@ -1,6 +1,6 @@
 <template>
     <v-card flat min-height="500">
-        <v-card-title class="text-primary">Покупки</v-card-title>
+        <!-- <v-card-title class="text-primary">Покупки</v-card-title>
         <v-card-text class="px-0">
             <div class="responsive-datatable">
                 <v-data-table
@@ -23,10 +23,10 @@
                     <template #item.count="{ item, index, column }">
                         <td :data-label="column.title">
                             <v-btn color="primary" density="comfortable" flat @click="dialog=true,currentProducts=(index as any)">
-                                <!-- <div class="d-flex align-center gap-1"> -->
+                                <div class="d-flex align-center gap-1">
                                     {{ item.count }}
                                     <v-icon style="margin-top: 2px;" class="ml-1">mdi-view-list</v-icon>
-                                <!-- </div> -->
+                                </div>
                             </v-btn>
                         </td>
                     </template>
@@ -35,11 +35,6 @@
                             {{ new Date(item.created_at).toLocaleString() }}
                         </td>
                     </template>
-                    <!-- <template #item.address="{ item, column }">
-                        <td :data-label="column.title">
-                            {{ item.count }}
-                        </td>
-                    </template> -->
                     <template #item.status="{ item, column }">
                         <td :data-label="column.title">
                             <v-chip label :color="{'process':'blue', 'delivered':'green', 'canceled': 'red'}[item.status as 'canceled']" variant="flat" density="comfortable">
@@ -102,20 +97,20 @@
                 </div>
                 </v-card-text>
             </v-card>
-        </v-dialog>
+        </v-dialog> -->
     </v-card>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { useStore } from 'vuex'
-import { useI18n } from 'vue-i18n'
-import { getMyOrders } from '../api/orders'
+// import { ref } from 'vue'
+// import { useStore } from 'vuex'
+// import { useI18n } from 'vue-i18n'
+// import { getMyOrders } from '../api/orders'
 
-const dialog = ref(false)
-const currentProducts = ref(null)
-const { getters } = useStore()
-const { t } = useI18n()
+// const dialog = ref(false)
+// const currentProducts = ref(null)
+// const { getters } = useStore()
+// const { t } = useI18n()
     //   "created_at": "2023-12-10T06:20:29.879496",
     //   "updated_at": "2023-12-10T06:20:29.879519",
     //   "total_sum": 0,
@@ -130,36 +125,36 @@ const { t } = useI18n()
     //       "quantity": 1
     //     }
     //   ]
-const headers = [
-    { title: 'Способ доставки', key: 'delivery_type', sortable: false },
-    // { title: 'Время доставки', key: 'date_delivery', sortable: false },
-    { title: 'Продукты', key: 'count', sortable: false },
-    { title: 'Время заказа', key: 'time', sortable: false },
-    { title: 'Статус', key: 'status', sortable: false },
-    { title: 'Адрес', key: 'address', sortable: false },
-    { title: 'Обшая сумма', key: 'total', sortable: false },
-    { title: 'Отказать', key: 'cancel', sortable: false },
-]
-const productHeaders = [
-    { title: 'Продукт', key: 'title', sortable: false },
-    { title: 'Кол-во', key: 'count', sortable: false },
-    { title: 'Цвет', key: 'color', sortable: false },
-]
-const products = [
-    { title: "Dior J'adore", count: 4, color: {"name": "Red", "hex": "#FF0000"} },
-    { title: 'Yves Saint Laurent Black Opium', count: 2, color: {"name": "Yellow", "hex": "#FFFF00"} },
-    { title: 'Gucci Guilty Pour Femme', count: 1, color: null },
-    { title: 'Calvin Klein Euphoria', count: 2, color: {"name": "Blue", "hex": "#0000FF"} },
-]
-const items = ref<any[]>([])
+// const headers = [
+//     { title: 'Способ доставки', key: 'delivery_type', sortable: false },
+//     // { title: 'Время доставки', key: 'date_delivery', sortable: false },
+//     { title: 'Продукты', key: 'count', sortable: false },
+//     { title: 'Время заказа', key: 'time', sortable: false },
+//     { title: 'Статус', key: 'status', sortable: false },
+//     { title: 'Адрес', key: 'address', sortable: false },
+//     { title: 'Обшая сумма', key: 'total', sortable: false },
+//     { title: 'Отказать', key: 'cancel', sortable: false },
+// ]
+// const productHeaders = [
+//     { title: 'Продукт', key: 'title', sortable: false },
+//     { title: 'Кол-во', key: 'count', sortable: false },
+//     { title: 'Цвет', key: 'color', sortable: false },
+// ]
+// const products = [
+//     { title: "Dior J'adore", count: 4, color: {"name": "Red", "hex": "#FF0000"} },
+//     { title: 'Yves Saint Laurent Black Opium', count: 2, color: {"name": "Yellow", "hex": "#FFFF00"} },
+//     { title: 'Gucci Guilty Pour Femme', count: 1, color: null },
+//     { title: 'Calvin Klein Euphoria', count: 2, color: {"name": "Blue", "hex": "#0000FF"} },
+// ]
+// const items = ref<any[]>([])
 
-const init = async () => {
-    const { data } = await getMyOrders(getters.user.id)
+// const init = async () => {
+//     const { data } = await getMyOrders(getters.user.id)
 
-    console.log(data);
-    items.value = data.results
-}
+//     console.log(data);
+//     items.value = data.results
+// }
 
 // if(!!getters.user?.id) init()
-init()
+// init()
 </script>
