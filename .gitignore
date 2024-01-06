@@ -11,11 +11,14 @@ node_modules
 Tasks.todo
 .vscode
 .env
-src/pages/admin
+src/pages/index
 src/p1
 public/chess
-public/flags
+public/bg
+public/logos
+public/bg
 public/mdi
+public/perfume
 dist
 dist-ssr
 *.local
