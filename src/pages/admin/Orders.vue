@@ -61,7 +61,7 @@
 import { debounce } from 'lodash'
 import { useI18n } from 'vue-i18n'
 import { Ref, ref, computed } from "vue"
-import { getOders, checkOder } from '../../api/orders'
+import { getOrders, checkOrder } from '../../api/orders'
 import { IOrder } from "../../interfaces/index.variant"
 
 const { t, locale } = useI18n()
@@ -107,7 +107,7 @@ const localizedHeaders = computed(() => {
 })
 
 const check = async (id: number, i: number) => {
-  const { data } = await checkOder(id, {
+  const { data } = await checkOrder(id, {
     country: items.value[i].country, 
     first_name: items.value[i].first_name,
     last_name: items.value[i].last_name,
@@ -123,7 +123,7 @@ const check = async (id: number, i: number) => {
 
 const loadItems = async () => {
   loading.value = true
-  const { data } = await getOders(qs.value)
+  const { data } = await getOrders(qs.value)
   items.value = data.results
   totalCount.value = data.count
   loading.value = false

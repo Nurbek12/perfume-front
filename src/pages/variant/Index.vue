@@ -9,16 +9,17 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import AppNavbar from '../../components/variant/AppNavbar.vue';
-import AppBar from '../../components/variant/AppBar.vue'
-import AppFooter from '../../components/app-footer.vue'
-
 import { useStore } from 'vuex'
 import { getTree } from '../../api/categories'
 import { getAllBrands } from '../../api/brands'
+import AppFooter from '../../components/app-footer.vue'
+import AppBar from '../../components/variant/AppBar.vue'
+import AppNavbar from '../../components/variant/AppNavbar.vue'
+
 
 const drawer = ref(false)
 const { commit } = useStore()
+
 const init = async () => {
     const [c, b] = await Promise.all([
         getTree(),

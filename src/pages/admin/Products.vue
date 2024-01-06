@@ -398,7 +398,7 @@ const qs = computed(() => {
     if (search.value.trim())
         params.append('search', search.value)
 
-    return '?' + params.toString()
+    return '?expand=category,brand,images&' + params.toString()
 })
 const perpagetext = computed(() => {
     const page_1 = (page.value - 1) * perpage.value;

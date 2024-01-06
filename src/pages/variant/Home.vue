@@ -29,7 +29,7 @@
                         <v-list-item height="65" class="py-1" v-for="item, i in searchedProducts" :key="i" link :to="`/product/${item.id}`">
                             <template v-slot:prepend>
                                 <v-avatar rounded>
-                                    <v-img cover :src="item.images[0]?.image?.medium_square_crop || '/img/nophoto.jpg'"></v-img>
+                                    <v-img cover :src="item.images?.[0]?.image?.medium_square_crop || '/img/nophoto.jpg'"></v-img>
                                 </v-avatar>
                             </template>
                             <v-list-item-title class="text-body-2">{{ item[`title_${locale as 'uz'}`] }}</v-list-item-title>
@@ -109,18 +109,18 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useStore } from 'vuex'
-import { getAllProducts } from '../../api/products'
 import { debounce } from 'lodash'
 import { useI18n } from 'vue-i18n'
+import { icons2 } from '../../constants'
 import { countries } from '../../assets/countries'
+import { getAllProducts } from '../../api/products'
 import { IProduct } from '../../interfaces/index.variant'
 import AppProductCard from '../../components/variant/AppProductCard.vue'
 import AppHomeCategory from '../../components/variant/AppHomeCategory.vue'
-import { icons2 } from '../../constants'
 
-const { locale, t } = useI18n()
-const { getters } = useStore()
 const products = ref([])
+const { getters } = useStore()
+const { locale, t } = useI18n()
 const searchedProducts = ref<IProduct[]>([])
 
 const init = async () => {

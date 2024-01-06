@@ -203,18 +203,21 @@
 </template>
     
 <script lang="ts" setup>
-import { ref, reactive } from 'vue'
 import { useStore } from 'vuex'
-import { useRoute } from 'vue-router'
-import { IProduct, IOrder } from '../../interfaces/index.variant'
-import { getProductById, getAllProducts } from '../../api/products'
-import { createOrder } from '../../api/orders'
 import { useI18n } from 'vue-i18n'
-import { countries } from '../../assets/countries'
+import { ref, reactive } from 'vue'
+import { useRoute } from 'vue-router'
 import { nameRule } from '../../plugins/rules'
-import AppProductCard from '../../components/variant/AppProductCard.vue'
+import { createOrder } from '../../api/orders'
+import { countries } from '../../assets/countries'
+import { IProduct } from '../../interfaces/index.variant'
+import { getProductById, getAllProducts } from '../../api/products'
 import { Splide, SplideSlide, Options } from '@splidejs/vue-splide'
+import AppProductCard from '../../components/variant/AppProductCard.vue'
 
+const { params } = useRoute()
+const { getters, commit } = useStore()
+const { locale, t } = useI18n()
 const slideOptions: Options = {
     rewind: true, 
     arrows: false,
@@ -234,17 +237,15 @@ const slideOptions: Options = {
         }
   }
 }
-const { params } = useRoute()
-const { getters, commit } = useStore()
-const { locale, t } = useI18n()
 
-const similarProduct = ref<IProduct[]>([])
-const form = ref<HTMLFormElement|null>(null)
 const dialog = ref(false)
 const loading = ref(false)
 const currentImage = ref(0)
 const product = ref<IProduct|null>(null)
-const review = reactive<IOrder>({
+const similarProduct = ref<IProduct[]>([])
+const form = ref<HTMLFormElement|null>(null)
+
+const review = reactive<any>({
     checked: false,
     first_name: "",
     last_name: "",
@@ -265,7 +266,6 @@ const itemProps = (item: any) => {
         'append-avatar': item.flag,
     }
 }
-
 const init = async () => {
     loading.value = true
     const { data } = await getProductById(params.id as any, 'expand=images,category,brand')
@@ -274,17 +274,14 @@ const init = async () => {
     loading.value = false
     getSimilar(data.category.id, data.brand.id)
 }
-
 const handleReview = async () => {
-    const { valid } = await form.value?.validate();
+    const { valid } = await form.value?.validate()
     if (!valid) return
-    console.log(12);
     
     await createOrder(review)
     dialog.value = false
     alert('Succesfully sended!')
 }
-
 const getSimilar = async (c: number, b: number) => {
     const { data } = await getAllProducts(`?category=${c}&brand=${b}&page=1&limit=10`)
     similarProduct.value = data.results

@@ -1,5 +1,5 @@
 import { createStore } from 'vuex'
-import cookie from 'js-cookie'
+// import cookie from 'js-cookie'
 import { IProduct } from '../interfaces'
 
 export default createStore({
@@ -96,7 +96,7 @@ export default createStore({
             localStorage.removeItem('user')
             localStorage.removeItem('token')
             // cookie.remove('token')
-            // window.location.href = '/login'
+            window.location.href = '/login'
         }
     },
 })

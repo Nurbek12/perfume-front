@@ -16,12 +16,12 @@ export default createVuetify({
     mobileBreakpoint: 'md'
   },
   theme: {
-    defaultTheme: localStorage.getItem('theme') || 'dark',
+    defaultTheme: 'light',
     themes: {
       light: {
         dark: false,
         colors: {
-          primary: "#E91E63",
+          primary: "#673ab7",
           background: '#f6f9fc'
         },
       },
