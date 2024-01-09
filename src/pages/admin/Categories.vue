@@ -13,18 +13,22 @@
             <v-card flat border="">
                 <v-card-title class="px-4 pt-3 font-weight-light">{{ t('products.categories') }}</v-card-title>
                 <v-card-text class="px-0">
-                    <div class="responsive-datatable">
+                    <!-- <div class="responsive-datatable"> -->
                         <!-- @update:options="loadItems" 
                         :items-length="totalCount" -->
-                        <!-- :search="search" -->
+                        <!-- :search="search" 
+                          :search="search"
+                        -->
                         <v-data-table
                             :items-per-page="perpage"
                             :page="page"
+                            :search="search"
                             :loading="loading" hover
                             :no-data-text="t('no_data')"
                             :loading-text="t('loading')+'...'" 
                             :items="items" item-value="id"
                             :headers="localizedHeaders"
+                            :custom-filter="filterOnlyCapsText"
                             density="comfortable">
                             <template #bottom></template>
                             <template #item.actions="{ item, index,column }">
@@ -39,16 +43,16 @@
                             <template #item.title="{ item, column }">
                               <td :data-label="column.title">{{ item[`name_${locale as "uz"|"en"|"ru"}`] }}</td>
                             </template>
-                            <template #item.parent="{ item, column }">
+                            <!-- <template #item.parent="{ item, column }">
                               <td :data-label="column.title">{{ item.parent?item.parent[`name_${locale as "uz"|"en"|"ru"}`]:'' }}</td>
-                            </template>
+                            </template> -->
                         </v-data-table>
-                    </div>
+                    <!-- </div> -->
                 </v-card-text>
             </v-card>
         </v-col>
         <v-col cols="12" sm="4" class="pt-0 pb-1 d-flex align-center">
-            <v-select bg-color="surface" v-model="perpage" transition="fade-transition" hide-details flat density="compact" variant="solo" class="border rounded" :items="[10,25,50,100,150]"></v-select>
+            <v-select bg-color="surface" v-model="perpage" transition="fade-transition" hide-details flat density="compact" variant="solo" class="border rounded" :items="[1,10,25,50,100,150]"></v-select>
             <v-text-field bg-color="surface" hide-details flat density="compact" variant="solo" class="border rounded ml-3" :model-value="perpagetext" readonly></v-text-field>
         </v-col>
         <v-col cols="12" sm="4" md="4" class="pt-0 pl-0 pb-1 pr-2 d-flex justify-end align-center">
@@ -113,7 +117,7 @@ import { createCategory, getAllCategories, updateCategory, deleteCategory } from
 const { t, locale } = useI18n()
 const headers = [
   { title: "products.title", key: "title" },
-  { title: "admin.parent", key: "parent" },
+  // { title: "admin.parent", key: "parent" },
   { title: "admin.actions", key: "actions", sortable: false },
 ]
 const page = ref(1)
@@ -138,20 +142,20 @@ const defaultItem = {
   name_ru: "",
   name_en: "",  
 }
-const qs = computed(() => {
-  const params = new URLSearchParams();
+// const qs = computed(() => {
+//   const params = new URLSearchParams();
 
-  if (page.value) 
-      params.append('page', String(page.value))
+//   if (page.value) 
+//       params.append('page', String(page.value))
 
-  if (perpage.value) 
-      params.append('limit', String(perpage.value))
+//   if (perpage.value) 
+//       params.append('limit', String(perpage.value))
 
-  if (search.value.trim())
-      params.append('search', search.value)
+//   if (search.value.trim())
+//       params.append('search', search.value)
 
-  return params.toString()
-})
+//   return params.toString()
+// })
 const perpagetext = computed(() => {
   const page_1 = (page.value - 1) * perpage.value;
   return `${page_1 + 1}-${page_1 + items.value.length} / ${totalCount.value}`
@@ -159,11 +163,16 @@ const perpagetext = computed(() => {
 const debounceSearch = debounce((e: string) => {
   search.value = e
   page.value = 1
-  loadItems()
+  // loadItems()
 }, 500)
 const localizedHeaders = computed(() => {
   return headers.map(h => ({...h, title: t(h.title)}))
 })
+
+const filterOnlyCapsText: any = (value: string, query: string, item: {raw: ICategory}) => {
+  query=query.toString().toLocaleLowerCase();
+  return Object.values(item.raw).some(v => v && v.toString().toLocaleLowerCase().includes(query))
+}
 
 watch(dialog, (v)=>v||close())
 
@@ -173,12 +182,14 @@ const editItem =  (item: ICategory, index: number) => {
   editedItem.value = Object.assign({}, item)
   dialog.value = true
 }
+console.log(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
 const deleteItem = async (index: number, id: number) => {
   if(!confirm('Do you delete this item?')) return
-  await deleteCategory(id)
   items.value.splice(index, 1)
+  await deleteCategory(id)
 }
+
 const close = () => {
   dialog.value = false
   nextTick(() => {
@@ -191,23 +202,45 @@ const close = () => {
 const save = async () => {
   if (editedIndex.value > -1) {
     console.log(editedItem.value);
-    const { data } = await updateCategory(editedItem.value, editedItem.value.id as any)
+    const { data } = await updateCategory(editedItem.value.id, editedItem.value)
     console.log(data);
-    Object.assign(items.value[editedIndex.value], data)
+    Object.assign(items.value[editedIndex.value], {
+      ...data,
+      parent: items.value.find(c => c.id === data.parent),
+    })
   } else {
     const { data } = await createCategory(editedItem.value)
-    items.value.push(data)
+    items.value.push({
+      ...data,
+      parent: items.value.find(c => c.id === data.parent),
+    })
   }
   close()
 }
 
 const loadItems = async () => {
   loading.value = true
-  const { data } = await getAllCategories(qs.value)
-  if(!data.results) return
-  items.value = data.results
-  totalCount.value = data.results.length
+  // const { data } = await getAllCategories('')
+  // if(!data.results) return
   // console.log(data);
+  // items.value = data.results
+  // totalCount.value = data.results.length
+
+  totalCount.value = 2
+  items.value = [{
+    id: 1,
+    name_en: 'Hello',
+    parent: null,
+    name_ru: 'Привеет',
+    name_uz: 'Salom'
+  },{
+    id: 2,
+    name_en: 'What',
+    parent: null,
+    name_ru: 'Что',
+    name_uz: 'Nima'
+  }]
+
   loading.value = false
 }
 

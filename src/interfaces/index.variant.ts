@@ -69,11 +69,9 @@ export interface IBrand {
     _id?: string
     name: string
     country?: number
-    image?: {
-        full_size: string
-        medium_square_crop: string
-        thumbnail: string
-    }
+    image: string
+    medium_square_crop: string
+    thumbnail: string
     description?: string
     description_uz?: string
     description_ru?: string
@@ -106,11 +104,9 @@ export interface ICategory {
 
 export interface IImage {
     id: number
-    image: {
-        full_size: string
-        medium_square_crop: string
-        thumbnail: string
-    }
+    image: string
+    medium_square_crop: string
+    thumbnail: string
     image_ppoi: string
     product: IProduct | number
 }

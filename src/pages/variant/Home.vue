@@ -29,7 +29,7 @@
                         <v-list-item height="65" class="py-1" v-for="item, i in searchedProducts" :key="i" link :to="`/product/${item.id}`">
                             <template v-slot:prepend>
                                 <v-avatar rounded>
-                                    <v-img cover :src="item.images?.[0]?.image?.medium_square_crop || '/img/nophoto.jpg'"></v-img>
+                                    <v-img cover :src="item.images?.[0]?.medium_square_crop || '/img/nophoto.jpg'"></v-img>
                                 </v-avatar>
                             </template>
                             <v-list-item-title class="text-body-2">{{ item[`title_${locale as 'uz'}`] }}</v-list-item-title>
@@ -124,7 +124,7 @@ const { locale, t } = useI18n()
 const searchedProducts = ref<IProduct[]>([])
 
 const init = async () => {
-    const { data } = await getAllProducts('?limit=12')
+    const { data } = await getAllProducts('?expand=images,brand&limit=12')
     products.value = data.results
 }
 

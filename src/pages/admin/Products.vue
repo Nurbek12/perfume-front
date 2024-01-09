@@ -281,7 +281,7 @@
                                 <v-slide-group-item v-for="image,n in product.images" :key="n">
                                     <div class="d-flex flex-column align-center mr-4 gap-1">
                                         <v-avatar rounded size="80" color="grey-lighten-2">
-                                            <v-img cover :src="image.image?.thumbnail"></v-img>
+                                            <v-img cover :src="baseURL+image?.thumbnail"></v-img>
                                         </v-avatar>
                                         <div class="d-flex align-center justify-space-between w-100">
                                             <span>{{ n }}</span>
@@ -321,6 +321,7 @@
 <script setup lang="ts">
 import { debounce } from 'lodash'
 import { useI18n } from 'vue-i18n'
+import { baseURL } from '../../api'
 import { sendImage } from '../../api/file'
 import { getAllBrands } from '../../api/brands'
 import { countries } from '../../assets/countries'
@@ -435,20 +436,24 @@ const save = async () => {
         if(typeof product.value.category === "object") product.value.category = (product.value.category as any).id
         product.value.images?.map(im => im.id)
         const { data } = await updateProduct(editedId.value, product.value)
-        Object.assign(items.value[editedIndex.value!], data)
+        
+        Object.assign(items.value[editedIndex.value!], {
+            ...data,
+            category: categories.value.find(c => c.id === data.category),
+            brand: brands.value.find(b => b.id === data.brand),
+        })
     }else {
         const { data } = await createProduct(product.value)
         editedId.value = data.id
         items.value.push(data)
     }
-    // const imgs = []
+    
     images.value && images.value.forEach(async (image) => {
         var form_data = new FormData()
         form_data.append('image', image)
         form_data.append('product', ''+editedId.value)
         const { data } = await sendImage(form_data)
         console.log(data)
-        // imgs.push(data)
     })
 
     close()
@@ -464,10 +469,9 @@ const editItem = (index: number, item: IProduct) => {
 const deleteItem = async (i: number, id: number) => {
     if(!confirm("Ushbu malumotni o'chirmoqchimisiz?")) return
 
-    const { data } = await deleteProduct(id)
-    console.log(data);
+    await deleteProduct(id)
     
-    items.value.splice(i, 1);
+    items.value.splice(i, 1)
 }
 
 const close = () => {

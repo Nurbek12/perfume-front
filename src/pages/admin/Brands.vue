@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row justify="space-between" align="center">
       <v-col cols="9" sm="6" md="4" class="pb-0 pr-0">
-          <v-text-field bg-color="surface" @update:modelValue="debounceSearch" :placeholder="t('admin.search')" append-inner-icon="mdi-magnify" hide-details flat density="compact" variant="solo" class="border rounded"></v-text-field>
+        <v-text-field bg-color="surface" @update:modelValue="debounceSearch" :placeholder="t('admin.search')" append-inner-icon="mdi-magnify" hide-details flat density="compact" variant="solo" class="border rounded"></v-text-field>
       </v-col>
       <v-col cols="3" sm="4" md="2" class="pb-0 d-flex justify-end">
           <v-btn @click="dialog=true" flat color="primary" size="43" width="100%">
@@ -38,7 +38,7 @@
                         <template #item.photo="{item, column}">
                           <td :data-label="column.title">
                             <v-avatar size="40" rounded>
-                              <v-img :src="item.image?.thumbnail" cover></v-img>
+                              <v-img :src="baseURL+item.thumbnail||'/img/nophoto.jpg'" cover></v-img>
                             </v-avatar>
                           </td>
                         </template>
@@ -127,6 +127,7 @@
 <script lang="ts" setup>
 import { debounce } from 'lodash'
 import { useI18n } from 'vue-i18n'
+import { baseURL } from '../../api'
 import { nameRule } from '../../plugins/rules'
 import { countries } from '../../assets/countries'
 import { Ref, ref, computed, nextTick, watch } from "vue"
@@ -167,20 +168,20 @@ const headers = [
   { title: "products.shipping", key: "country" },
   { title: "admin.actions", align: 'end', key: "actions", sortable: false },
 ]
-const qs = computed(() => {
-  const params = new URLSearchParams();
+// const qs = computed(() => {
+//   const params = new URLSearchParams();
 
-  if (page.value) 
-      params.append('page', String(page.value))
+//   if (page.value) 
+//       params.append('page', String(page.value))
 
-  if (perpage.value) 
-      params.append('perpage', String(perpage.value))
+//   if (perpage.value) 
+//       params.append('perpage', String(perpage.value))
 
-  if (search.value.trim())
-      params.append('search', search.value)
+//   if (search.value.trim())
+//       params.append('search', search.value)
 
-  return params.toString()
-})
+//   return params.toString()
+// })
 const perpagetext = computed(() => {
   const page_1 = (page.value - 1) * perpage.value;
   return `${page_1 + 1}-${page_1 + items.value.length} / ${totalCount.value}`
@@ -242,9 +243,10 @@ const save = async () => {
 }
 const loadItems = async () => {
   loading.value = true
-  const { data } = await getAllBrands(qs.value)
+  const { data } = await getAllBrands('')
   items.value = data.results
   totalCount.value = data.results.length
+  console.log(data)
   loading.value = false
 }
 

@@ -1,6 +1,6 @@
 <template>
     <v-card border flat theme="light">
-        <v-img width="100%" height="200" :src="item?.images?.[0]?.image?.full_size||'/img/nophoto.jpg'"></v-img>
+        <v-img width="100%" height="200" :src="item?.images?.[0]?.medium_square_crop?baseURL+item.images[0].medium_square_crop:'/img/nophoto.jpg'"></v-img>
         <v-divider class="mb-1"></v-divider>
         <router-link :to="`/product/${item.id}`" class="px-3 text-decoration-none font-weight-medium text-subtitle-1 py-1 text-primary">{{ item?.[`title_${locale as 'uz'}`] }}</router-link>
         <v-card-text class="py-1 px-3"><span class="font-weight-medium">{{ t('products.price') }}:</span> {{ item?.price }} $</v-card-text>
@@ -24,6 +24,7 @@
 <script setup lang="ts">
 import { defineProps } from 'vue'
 import { useStore } from 'vuex'
+import { baseURL } from '../../api'
 import { IProduct } from '../../interfaces/index.variant'
 import { useI18n } from 'vue-i18n'
 import { countries } from '../../assets/countries'

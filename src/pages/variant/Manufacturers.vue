@@ -12,7 +12,7 @@
                     <v-list-item>
                         <template #prepend>
                             <v-avatar rounded size="100">
-                                <v-img :src="(getters.brands as IBrand[])[index].image?.medium_square_crop"></v-img>
+                                <v-img :src="baseURL+(getters.brands as IBrand[])[index].medium_square_crop||'/img/nophoto.jpg'"></v-img>
                             </v-avatar>
                         </template>
                         <template #title>{{ (getters.brands as IBrand[])[index].name }}</template>
@@ -38,6 +38,7 @@
 import { ref } from 'vue'
 import { useStore } from 'vuex'
 import { useI18n } from 'vue-i18n'
+import { baseURL } from '../../api'
 import { countries } from '../../assets/countries'
 import { IBrand } from '../../interfaces/index.variant'
 import AppBrandItem from '../../components/variant/AppBrandItem.vue'

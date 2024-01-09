@@ -1,4 +1,5 @@
 export const en = {
+    product: "Product",
     search_by_name: "Seach by title",
     search_by_price: "Seach by price",
     min: "Min.",
@@ -43,6 +44,7 @@ export const en = {
 }
 
 export const ru = {
+    product: "Продукт",
     search_by_name: "Искать по назавыние",
     search_by_price: "Искать по цене",
     min: "Мин.",
@@ -87,6 +89,7 @@ export const ru = {
 }
 
 export const uz = {
+    product: "Mahsulot",
     search_by_name: "Nomi bo'yicha izlash",
     search_by_price: "Narxi bo'yicha izlash",
     min: "Min.",

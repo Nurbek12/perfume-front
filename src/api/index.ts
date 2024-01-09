@@ -1,10 +1,10 @@
 import axios from "axios"
 import store from '../store'
 
-const baseURL = import.meta.env.VITE_PROXY_URL
+export const baseURL = import.meta.env.VITE_PROXY_URL||''
 // const token = import.meta.env.VITE_PROXY_TOKEN
 
-const api = axios.create({ baseURL })
+const api = axios.create({ baseURL: baseURL || '/' })
 
 api.interceptors.response.use(
   (response) => {

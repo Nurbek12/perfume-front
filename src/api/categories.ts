@@ -1,6 +1,6 @@
 import api from "."
 
-export const getAllCategories = (qs: string) => api.get(`/api/v1/categories/?omit=parent`)
+export const getAllCategories = (qs: any) => api.get(`/api/v1/categories/?${qs}`)
 
 export const createCategory = (data: any) => api.post('/api/v1/categories/', data)
 

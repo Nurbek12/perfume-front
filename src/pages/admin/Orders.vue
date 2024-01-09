@@ -73,7 +73,7 @@ const perpage = ref(25)
 const totalCount = ref(0)
 const loading = ref(false)
 const headers = [
-  { title: "products.", key: "name", sortable: false },
+  { title: "products.first_name", key: "name", sortable: false },
   { title: "admin.product", key: "product", sortable: false },
   { title: "products.phone", key: "phone", sortable: false },
   { title: "admin.order_message", key: "message", sortable: false },

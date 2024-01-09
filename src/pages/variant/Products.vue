@@ -52,7 +52,7 @@
                     </v-card-text>
                     <v-card-text class="py-0">
                         <v-list density="compact" nav class="px-0" mandatory color="primary">
-                            <v-list-item class="py-0" :active="(filters.brand as any) === b.id" height="25" v-for="b,i in getters.brands" :key="i" :value="b.id" link @click="setValue('brand', b.id)">
+                            <v-list-item class="py-0" v-for="b,i in getters.brands" :key="i" :active="(filters.brand as any) === b.id" height="25" :value="b.id" link @click="setValue('brand', b.id)">
                                 {{ b.name }}
                             </v-list-item>
                         </v-list>
@@ -95,8 +95,8 @@ const filters = reactive({
     search: route.query.search || '',
     brand: route.query.brand || '',
     category: route.query.category || '',
-    min_price:  route.query.min_price || '',
-    max_price: route.query.max_price || '',
+    min_price:  route.query.min_price || 0,
+    max_price: route.query.max_price || 0,
     page: route.query.page || 1,
 })
 
@@ -116,7 +116,7 @@ const setValue = (key: keyof typeof filters, value: any) => {
 const getProducts = debounce(async () => {
     loading.value = true
     items.value = []
-    const { data } = await getAllProducts(location.search||'?')
+    const { data } = await getAllProducts(location.search?location.search+'&expand=images':'?expand=images')
     items.value = data.results
     count.value = data.count
     loading.value = false

@@ -11,6 +11,6 @@ export const getReview = async (revewData: IReview) => api.post('/api/v1/ratings
 
 export const createProduct =  async (data: any) => api.post('/api/v1/products/', data)
 
-export const deleteProduct =  async (id: any) => api.delete(`/api/v1/ratings/${id}/`)
+export const deleteProduct =  async (id: any) => api.delete(`/api/v1/products/${id}/`)
 
 export const updateProduct =  async (id: any, data: any) => api.put(`/api/v1/products/${id}/`, data)

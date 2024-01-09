@@ -2,7 +2,7 @@
   <v-footer class="bg-grey-darken-4 d-flex flex-column pb-15 pb-md-5" absolute>
     <v-container class="py-0">
       <div class="text-center mb-2">
-        <span class="text-h6">Perfume Shop</span>
+        <span class="text-h6">KESH MED</span>
       </div>
       <v-row class="mb-0">
         <v-col cols="6" sm="4" md="3">
@@ -15,15 +15,15 @@
 
         <v-col cols="12" sm="12" md="6">
           <div class="d-flex flex-column w-100">
-            <span>{{ t('footer.title') }}</span>
+            <span>Lorem ipsum dolor sit amet.</span>
             <div class="w-100 text-justify mt-2 text-body-2 text-grey-lighten-1">
-              {{ t('footer.text') }}
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vitae consequuntur blanditiis, nobis ullam atque impedit sequi voluptatibus tempora eveniet facilis beatae dignissimos voluptas dolorum magnam iure unde adipisci perspiciatis similique!
             </div>
           </div>
         </v-col>
       </v-row>
       <v-divider></v-divider>
-      <div class="text-center">{{ new Date().getFullYear() }} — <strong>Perfume Shop</strong></div>
+      <div class="text-center">{{ new Date().getFullYear() }} — <strong>Kesh Med</strong></div>
     </v-container>
   </v-footer>
 </template>
@@ -35,11 +35,11 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
 const social_links = [
-  { icon: 'mdi-facebook', title: 'Perfume Shop', url: '' },
-  { icon: 'mdi-twitter', title: '@perfume.shop', url: '' },
-  { icon: 'mdi-linkedin', title: 'Pefume_Shop', url: '' },
-  { icon: 'mdi-instagram', title: '@perfume_shop_', url: '' },
-  { icon: 'mdi-telegram', title: '@perfume_shop', url: '' },
+  { icon: 'mdi-facebook', title: 'Kesh Med', url: '' },
+  { icon: 'mdi-twitter', title: '@kesh.med', url: '' },
+  { icon: 'mdi-linkedin', title: 'Kesh_Med', url: '' },
+  { icon: 'mdi-instagram', title: '@kesh_med_', url: '' },
+  { icon: 'mdi-telegram', title: '@kesh_med', url: '' },
   { icon: 'mdi-phone', title: '+998 90 123 45 67', url: '' },
 ]
 
