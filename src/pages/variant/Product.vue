@@ -21,7 +21,7 @@
                             <v-slide-group v-model="currentImage" class="pa-2" mandatory selected-class="bg-primary" show-arrows>
                                 <v-slide-group-item v-slot="{ isSelected, toggle }" v-for="image, i in product?.images" :key="i">
                                     <v-avatar size="50" rounded @click="toggle" :color="!isSelected ? 'grey-lighten-3' : 'primary'" class="mx-1 pa-1">
-                                        <v-img :src="image?.thumbnail ? baseURL + image.thumbnail : '/img/nophoto.jpg'" cover></v-img>
+                                        <v-img :src="image?.thumbnail || '/img/nophoto.jpg'" cover></v-img>
                                     </v-avatar>
                                 </v-slide-group-item>
                             </v-slide-group>
@@ -205,7 +205,7 @@
 <script lang="ts" setup>
 import { useStore } from 'vuex'
 import { useI18n } from 'vue-i18n'
-import { baseURL } from '../../api'
+// import { baseURL } from '../../api'
 import { ref, reactive } from 'vue'
 import { useRoute } from 'vue-router'
 import { nameRule } from '../../plugins/rules'

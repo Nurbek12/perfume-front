@@ -1,6 +1,6 @@
 <template>
 <v-card flat border theme="light" link @click="$emit('open-this')">
-    <v-img height="150" :src="baseURL+brand?.medium_square_crop||'/img/nophoto.jpg'"></v-img>
+    <v-img height="150" :src="brand?.medium_square_crop||'/img/nophoto.jpg'"></v-img>
     <v-card-title class="text-primary text-subtitle-1">{{brand?.name}}</v-card-title>
     <v-card-text>
         <div class="d-flex gap-1 align-center">
@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import { defineProps } from 'vue'
 import { countries } from '../../assets/countries'
-import { baseURL } from '../../api'
+// import { baseURL } from '../../api'
 
 const props = defineProps({
     brand: {

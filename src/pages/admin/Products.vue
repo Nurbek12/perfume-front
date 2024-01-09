@@ -281,7 +281,7 @@
                                 <v-slide-group-item v-for="image,n in product.images" :key="n">
                                     <div class="d-flex flex-column align-center mr-4 gap-1">
                                         <v-avatar rounded size="80" color="grey-lighten-2">
-                                            <v-img cover :src="baseURL+image?.thumbnail"></v-img>
+                                            <v-img cover :src="image?.thumbnail"></v-img>
                                         </v-avatar>
                                         <div class="d-flex align-center justify-space-between w-100">
                                             <span>{{ n }}</span>
@@ -321,7 +321,7 @@
 <script setup lang="ts">
 import { debounce } from 'lodash'
 import { useI18n } from 'vue-i18n'
-import { baseURL } from '../../api'
+// import { baseURL } from '../../api'
 import { sendImage } from '../../api/file'
 import { getAllBrands } from '../../api/brands'
 import { countries } from '../../assets/countries'

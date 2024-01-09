@@ -220,26 +220,11 @@ const save = async () => {
 
 const loadItems = async () => {
   loading.value = true
-  // const { data } = await getAllCategories('')
-  // if(!data.results) return
-  // console.log(data);
-  // items.value = data.results
-  // totalCount.value = data.results.length
-
-  totalCount.value = 2
-  items.value = [{
-    id: 1,
-    name_en: 'Hello',
-    parent: null,
-    name_ru: 'Привеет',
-    name_uz: 'Salom'
-  },{
-    id: 2,
-    name_en: 'What',
-    parent: null,
-    name_ru: 'Что',
-    name_uz: 'Nima'
-  }]
+  const { data } = await getAllCategories('')
+  if(!data.results) return
+  console.log(data);
+  items.value = data.results
+  totalCount.value = data.results.length
 
   loading.value = false
 }

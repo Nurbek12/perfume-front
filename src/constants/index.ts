@@ -1,13 +1,14 @@
 export const languages = [
-    { lang: 'en', img: '/flag/us.svg', title: "English" },
-    { lang: 'ru', img: '/flag/ru.svg', title: "Русский" },
-    { lang: 'uz', img: '/flag/uz.svg', title: "O'zbekcha" },
+    { lang: 'en', img: '/static/flag/us.svg', title: "English" },
+    { lang: 'ru', img: '/static/flag/ru.svg', title: "Русский" },
+    { lang: 'uz', img: '/static/flag/uz.svg', title: "O'zbekcha" },
 ]
 
 export const links = [
     'home',
     'products',
     'brands',
+    'adminproducts',
 ]
 
 export const icons2 = [

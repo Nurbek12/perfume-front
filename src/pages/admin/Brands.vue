@@ -38,7 +38,7 @@
                         <template #item.photo="{item, column}">
                           <td :data-label="column.title">
                             <v-avatar size="40" rounded>
-                              <v-img :src="baseURL+item.thumbnail||'/img/nophoto.jpg'" cover></v-img>
+                              <v-img :src="item.thumbnail||'/img/nophoto.jpg'" cover></v-img>
                             </v-avatar>
                           </td>
                         </template>
@@ -127,7 +127,7 @@
 <script lang="ts" setup>
 import { debounce } from 'lodash'
 import { useI18n } from 'vue-i18n'
-import { baseURL } from '../../api'
+// import { baseURL } from '../../api'
 import { nameRule } from '../../plugins/rules'
 import { countries } from '../../assets/countries'
 import { Ref, ref, computed, nextTick, watch } from "vue"

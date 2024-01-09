@@ -6,6 +6,7 @@ export const en = {
     profile: "Profile",
     gifts: "Gifts",
     brands: "Brands",
+    adminproducts: "Login"
 }
 
 export const ru = {
@@ -16,6 +17,7 @@ export const ru = {
     profile: "Профайл",
     gifts: "Подарки",
     brands: "Бренды",
+    adminproducts: "Логин"
 }
 
 export const uz = {
@@ -26,4 +28,5 @@ export const uz = {
     profile: "Profil",
     gifts: "Sovg'alar",
     brands: "Brendlar",
+    adminproducts: "Login"
 }
