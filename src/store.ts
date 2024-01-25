@@ -1,6 +1,6 @@
 import { createStore } from 'vuex'
 // import cookie from 'js-cookie'
-import { IProduct } from '../interfaces'
+// import { IProduct } from '../interfaces'
 
 export default createStore({
     state: {
@@ -26,9 +26,9 @@ export default createStore({
         categories: state => state.categories,
         parent_categories: state => state.categories.filter((c: any) => c.parent === null),
         
-        total_cart_sum: state => state.cart.reduce((a: number, b: any) => {
-            return a + (b.discount?b.price - (b.price * b.discount / 100):b.price) * b.quantity
-        }, 0)
+        // total_cart_sum: state => state.cart.reduce((a: number, b: any) => {
+        //     return a + (b.discount?b.price - (b.price * b.discount / 100):b.price) * b.quantity
+        // }, 0)
     },
     actions: {},
     mutations: {
@@ -47,36 +47,36 @@ export default createStore({
             // const expires = new Date(new Date().getTime() + 5 * 60 * 60 * 1000);
             // cookie.set('token', payload, { expires })
         },
-        SET_USER: (state, payload) => {
-            state.user = payload
-            localStorage.setItem('user', JSON.stringify(payload))
-        },
-        ADD_TO_CART: (state, item) => {
-            const itemIndex = state.cart.findIndex((p: any) => p.id === item.id)
+        // SET_USER: (state, payload) => {
+        //     state.user = payload
+        //     localStorage.setItem('user', JSON.stringify(payload))
+        // },
+        // ADD_TO_CART: (state, item) => {
+        //     const itemIndex = state.cart.findIndex((p: any) => p.id === item.id)
 
-            if(itemIndex < 0) state.cart.push({...item, quantity: 1, 
-                selected: item?.units?.[0]?.id || 0
-            })
-            else state.cart[itemIndex].quantity += 1
+        //     if(itemIndex < 0) state.cart.push({...item, quantity: 1, 
+        //         selected: item?.units?.[0]?.id || 0
+        //     })
+        //     else state.cart[itemIndex].quantity += 1
 
-            localStorage.setItem('cart', JSON.stringify(state.cart))
-        },
-        SET_COLOR_CART: (state, payload: [IProduct, number]) => {
-            const [item, selected] = payload
-            const itemIndex = state.cart.findIndex((p: any) => p.id === item.id)
+        //     localStorage.setItem('cart', JSON.stringify(state.cart))
+        // },
+        // SET_COLOR_CART: (state, payload: [IProduct, number]) => {
+        //     const [item, selected] = payload
+        //     const itemIndex = state.cart.findIndex((p: any) => p.id === item.id)
 
-            if(itemIndex < 0) state.cart.push({...item, quantity: 1, selected })
-            else state.cart[itemIndex].selected = selected
-            localStorage.setItem('cart', JSON.stringify(state.cart))
-        },
-        REMOVE_TO_CART: (state, item) => {
-            const itemIndex = state.cart.findIndex((p: any) => p.id === item.id)
-            state.cart[itemIndex].quantity -= 1
+        //     if(itemIndex < 0) state.cart.push({...item, quantity: 1, selected })
+        //     else state.cart[itemIndex].selected = selected
+        //     localStorage.setItem('cart', JSON.stringify(state.cart))
+        // },
+        // REMOVE_TO_CART: (state, item) => {
+        //     const itemIndex = state.cart.findIndex((p: any) => p.id === item.id)
+        //     state.cart[itemIndex].quantity -= 1
 
-            if(state.cart[itemIndex].quantity == 0) state.cart.splice(itemIndex, 1)
+        //     if(state.cart[itemIndex].quantity == 0) state.cart.splice(itemIndex, 1)
 
-            localStorage.setItem('cart', JSON.stringify(state.cart))
-        },
+        //     localStorage.setItem('cart', JSON.stringify(state.cart))
+        // },
         ADD_TO_SAVE: (state, item) => {
             state.saved.push(item)
             localStorage.setItem('saved', JSON.stringify(state.saved))
@@ -96,7 +96,7 @@ export default createStore({
             localStorage.removeItem('user')
             localStorage.removeItem('token')
             // cookie.remove('token')
-            window.location.href = '/login'
+            // window.location.href = '/login'
         }
     },
 })

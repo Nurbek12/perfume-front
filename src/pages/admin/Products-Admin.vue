@@ -28,9 +28,9 @@
                             <template #bottom></template>
                             <template #item.actions="{ item, index, column }">
                                 <td :data-label="column.title">
-                                    <div class="d-flex justify-space-between align-center">
-                                        <v-btn @click="editItem(index, item)" color="light-blue-accent-4" size="30" flat class="mr-1"><v-icon>mdi-pencil</v-icon></v-btn>
-                                        <v-btn @click="deleteItem(index, item.id!)" color="light-blue-accent-4" size="30" flat><v-icon>mdi-delete</v-icon></v-btn>
+                                    <div class="d-flex w-100 justify-space-end align-center">
+                                        <!-- <v-btn @click="editItem(index, item)" color="light-blue-accent-4" size="30" flat class="mr-1"><v-icon>mdi-pencil</v-icon></v-btn> -->
+                                        <v-btn @click="deleteItem(index, item.id!)" color="red" size="30" flat><v-icon>mdi-delete</v-icon></v-btn>
                                     </div>
                                 </td>
                             </template>
@@ -160,16 +160,6 @@
                                 color="primary"
                             ></v-text-field>    
                         </v-col>
-                        <!-- <v-col cols="12" class="pa-2">
-                            <v-select :rules="namerules" flat class="border rounded" density="compact" bg-color="surface" v-model="product.category" :items="categories" placeholder="Категория" item-title="name" hide-details item-value="id" variant="solo" color="primary" ></v-select>
-                        </v-col> -->
-
-                        <!-- <v-col cols="12" class="pa-2">
-                            <v-select :rules="namerules" flat class="border rounded" density="compact" bg-color="surface" v-model="product.category_1" :items="categories" placeholder="Родитель Категория" :item-title="`name_${locale}`" hide-details item-value="id" variant="solo" color="primary" ></v-select>
-                        </v-col>
-                        <v-col cols="12" class="pa-2">
-                            <v-select flat class="border rounded" density="compact" bg-color="surface" v-model="product.category_2" :items="child_categories_1" placeholder="Категория" :item-title="`name_${locale}`" hide-details item-value="id" variant="solo" color="primary" ></v-select>
-                        </v-col> -->
                         <v-col cols="12" class="pa-2">
                             <v-select flat class="border rounded" density="compact" bg-color="surface" v-model="product.category" :items="categories" :placeholder="t('products.category')" :item-title="`name_${locale}`" hide-details item-value="id" variant="solo" color="primary" ></v-select>
                         </v-col>
@@ -255,7 +245,7 @@
                                     <label for="image-files" class="w-100 py-2 rounded bg-primary d-flex justify-center align-center" v-ripple>
                                         {{ t('admin.add_image') }}
                                     </label>
-                                    <v-file-input v-show="false" id="image-files" flat class="border rounded" density="compact" bg-color="surface" v-model="images" max="10" label="Фотография" multiple counter  hide-details variant="solo" color="primary" prepend-icon=""></v-file-input>
+                                    <v-file-input v-show="false" id="image-files" flat class="border rounded" density="compact" bg-color="surface" @change="pushImages" max="10" label="Фотография" multiple counter  hide-details variant="solo" color="primary" prepend-icon=""></v-file-input>
                                 </v-col>
                                 <v-col cols="12">
                                     <v-slide-group show-arrows>
@@ -426,6 +416,10 @@ const getBlobImage = (image: any) => {
     return URL.createObjectURL(image)
 }
 
+const pushImages = (e: any) => {
+    images.value.push(...e.target.files)
+}
+
 const save = async () => {
     const { valid } = await form.value?.validate();
     if (!valid) return
@@ -451,8 +445,7 @@ const save = async () => {
     images.value && images.value.forEach(async (image) => {
         var form_data = new FormData()
         form_data.append('image', image)
-        form_data.append('product', ''+editedId.value)
-        const { data } = await sendImage(form_data)
+        const { data } = await sendImage(editedId.value as any, form_data)
         console.log(data)
     })
 

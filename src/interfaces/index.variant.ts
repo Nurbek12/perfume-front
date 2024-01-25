@@ -97,9 +97,9 @@ export interface ICategory {
     name_uz?: string
     name_ru?: string
     name_en?: string
-    parent: ICategory | null
+    parent: number | null
 
-    children?: ICategory[]
+    children: ICategory[]
 }
 
 export interface IImage {

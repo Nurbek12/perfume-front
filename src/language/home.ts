@@ -1,6 +1,6 @@
 export const en = {
     title: "MEDICAL EQUIPMENTS",
-    desc: "Far, far away, behind the word mountains, in the land of vowels and consonants, there live the fish texts. Then he decided his grammar was fishy, ​​they were far from fishy. A long way, having obeyed, the text flies there.",
+    desc: "Our company plays a critical role in bringing innovation and quality to the field of healthcare in Uzbekistan. We strive to continuously improve and update our high-quality medical devices and products to meet international standards and provide excellent healthcare services. By leveraging new technologies, we develop cutting-edge solutions in the medical field, ensuring the well-being of patients and healthcare professionals.",
     search: "What are you looking for?",
 
     all_categories: "All categories",
@@ -8,11 +8,22 @@ export const en = {
     see_all: "View all",
     faqs: "Frequently asked questions",
 
+    card_1_title: "Delivery",
+    card_1_desc: "Fast and reliable delivery straight to you. We guarantee the safety of goods and timely fulfillment of orders.",
+    
+    card_2_title: "Installation",
+    card_2_desc: "Профессиональная установка наших продуктов для обеспечения оптимальной производительности и долгосрочной надежности.",
+    
+    card_3_title: "Repair",
+    card_3_desc: "Competently repair products using original spare parts. We will restore the functionality of your equipment quickly and efficiently.",
+
+    card_4_title: "24/7 support",
+    card_4_desc: "Our support team is ready to help you at any time of the day. We value every client and guarantee a prompt response to your requests.",
 }
 
 export const ru = {
     title: "МЕДИЦИНСКОЕ ОБОРУДОВАНИЕ",
-    desc: "Далеко-далеко за словесными горами в стране гласных, и согласных живут рыбные тексты. То рыбными он свой грамматики решила, рыбного они даль. Большой путь послушавшись залетают там текст.",
+    desc: "Добро пожаловать в Кеш Мед - ваш надежный партнер в области медицинского оборудования. Мы специализируемся на предоставлении высокотехнологичных и инновационных решений для современных медицинских учреждений.",
     search: "Что вы ищете?",
 
     all_categories: "Все категории",
@@ -20,6 +31,17 @@ export const ru = {
     see_all: "Посмотреть все",
     faqs: "Часто задаваемые вопросы",
 
+    card_1_title: "Доставка",
+    card_1_desc: "Быстрая и надежная доставка прямо к вам. Мы гарантируем сохранность товаров и своевременное выполнение заказов.",
+
+    card_2_title: "Установка",
+    card_2_desc: "Профессиональная установка наших продуктов для обеспечения оптимальной производительности и долгосрочной надежности.",
+    
+    card_3_title: "Ремонт",
+    card_3_desc: "Компетентный ремонт продуктов с использованием оригинальных запчастей. Восстановим функциональность вашего оборудования быстро и эффективно.",
+
+    card_4_title: "Поддержка 24/7",
+    card_4_desc: "Наша команда поддержки готова помочь вам в любое время суток. Мы ценим каждого клиента и гарантируем оперативное реагирование на ваши запросы.",
 }
 
 export const uz = {
@@ -31,4 +53,16 @@ export const uz = {
     recomended: "Tavsiya etilgan qurilmalar",
     see_all: "Barchasini ko'rish",
     faqs: "Ko'p beriladigan savollar",
+
+    card_1_title: "Yetkazib berish",
+    card_1_desc: "Sizga tez va ishonchli yetkazib berish. Biz tovarlarning xavfsizligini va buyurtmalarning o'z vaqtida bajarilishini kafolatlaymiz.",
+
+    card_2_title: "O'rnatib Berish",
+    card_2_desc: "Optimal ishlash va uzoq muddatli ishonchlilikni ta'minlash uchun mahsulotlarimizni professional tarzda o'rnatish.",
+    
+    card_3_title: "Ta'mirlash",
+    card_3_desc: "Asl ehtiyot qismlardan foydalangan holda mahsulotlarni malakali ta'mirlash. Uskunalaringizning funksionalligini tez va samarali tarzda tiklaymiz.",
+    
+    card_4_title: "Поддержка 24/7",
+    card_4_desc: "Bizning qo'llab-quvvatlash jamoamiz kunning istalgan vaqtida sizga yordam berishga tayyor. Biz har bir mijozni qadrlaymiz va sizning so'rovlaringizga tezkor javob berishni kafolatlaymiz.",
 }

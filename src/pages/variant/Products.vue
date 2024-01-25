@@ -3,7 +3,19 @@
         <v-row>
             <v-col cols="12" sm="4" class="pr-0">
                 <v-card flat border>
-                    <v-card-text class="text-primary">{{ t('products.search_by_name') }}</v-card-text>
+                    <v-card-text class="w-100 text-primary d-flex justify-space-between align-center">
+                        <span>{{ t('products.search_by_name') }}</span>
+                        <div class="d-flex justify-end">
+                            <v-switch v-model="filters.is_part"
+                                hide-details density="compact"
+                                color="primary"
+                                @update:model-value="e => setValue('is_part', e)"
+                                :false-value="''"
+                                :true-value="true"
+                                :label="t('admin.is_part')"
+                            ></v-switch>
+                        </div>
+                    </v-card-text>
                     <v-card-text class="py-0 pb-1">
                         <v-text-field :placeholder="t('products.search_by_name')" append-inner-icon="mdi-magnify" flat
                             density="compact" class="border rounded" hide-details variant="solo" bg-color="background"
@@ -78,11 +90,19 @@ import { useStore } from 'vuex'
 import { debounce } from 'lodash'
 import { useI18n } from 'vue-i18n'
 import { ref, reactive } from 'vue'
+import { useHead } from '@unhead/vue'
 import { useRouter, useRoute } from 'vue-router'
 import { getAllProducts } from '../../api/products'
 import { ICategory, IProduct } from '../../interfaces/index.variant'
 import AppProductList from '../../components/variant/AppProductList.vue'
 
+useHead({
+    title: " Искать Медицинское Оборудование в Узбекистане",
+    meta: [
+        {name: "description", content: "Найдите широкий ассортимент медицинского оборудования в Узбекистане. Качественные товары, высокий уровень сервиса. Покупайте оборудование для здравоохранения у надежных поставщиков."},
+        {name: "keywords", content: "медицинское оборудование, Узбекистан, оборудование для здравоохранения, медицинские товары, медтехника, поставщики, купить оборудование"},
+    ]
+})
 const count = ref(0)
 const route = useRoute()
 const loading = ref(true)
@@ -97,6 +117,7 @@ const filters = reactive({
     category: route.query.category || '',
     min_price:  route.query.min_price || 0,
     max_price: route.query.max_price || 0,
+    is_part: route.query.is_part || '',
     page: route.query.page || 1,
 })
 

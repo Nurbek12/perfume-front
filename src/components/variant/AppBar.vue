@@ -8,7 +8,7 @@
         </div>
         <router-link to="/" class="text-h6 text-primary text-decoration-none">
             <v-avatar size="150" rounded>
-                <v-img src="/logo.svg"></v-img>
+                <v-img src="/static/logo.svg" alt="site-logo"></v-img>
             </v-avatar>
         </router-link>
 
@@ -16,15 +16,15 @@
             <v-btn color="primary" to="/saved" size="28" variant="text" class="text-none text-body-2 font-weight-light mr-1">
                 <v-icon>mdi-heart</v-icon>
             </v-btn>
-            <v-btn color="primary" height="28" prepend-icon="mdi-phone" variant="text" class="text-none text-body-2 font-weight-light mr-1">
-                <span>+998 90 123 45 67</span>
+            <v-btn href="tel:+998908893700" color="primary" height="28" prepend-icon="mdi-phone" variant="text" class="text-none text-body-2 font-weight-light mr-1">
+                <span>+998 (90) 889 37 00</span>
             </v-btn>
             <v-menu location="bottom center" transition="fade-transition">
                 <template #activator="{props}">
                     <v-btn color="primary" height="28" v-bind="props" variant="outlined" class="text-none text-body-2 font-weight-light">
                         <template #prepend>
                             <v-avatar rounded size="20">
-                                <v-img :src="currentLang?.img"></v-img>
+                                <v-img :src="currentLang?.img" alt="site-languages"></v-img>
                             </v-avatar>
                         </template>
                         <span>{{ currentLang?.title }}</span>
@@ -34,7 +34,7 @@
                     <v-list-item link v-for="lang, i in languages" :key="i" @click="changeLang(lang.lang)">
                         <template #prepend>
                             <v-avatar rounded size="30">
-                                <v-img :src="lang.img"></v-img>
+                                <v-img :src="lang.img" alt="sile-languages-choice"></v-img>
                             </v-avatar>
                         </template>
                         <v-list-item-title>{{ lang.title }}</v-list-item-title>
@@ -42,7 +42,7 @@
                 </v-list>
             </v-menu>
         </div>
-        <v-btn v-else @click="$emit('open-nav')" size="40" variant="flat" color="primary">
+        <v-btn v-else aria-labelledby="toggle-nav-drawer" aria-label="toggle-drawer" @click="$emit('open-nav')" size="40" variant="flat" color="primary">
             <v-icon>mdi-menu</v-icon>
         </v-btn>
     </v-container>

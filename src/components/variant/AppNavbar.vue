@@ -6,19 +6,20 @@
             </div>
         </template>
 
-        <v-list density="compact" nav color="primary">
-            <v-list-item density="compact" v-for="link,i in links" :key="i" link :to="{name: link.url}" exact :title="t('links.'+link.url)"></v-list-item>
+        <v-list density="compact" nav color="primary" aria-label="nav-links">
+            <v-list-item density="compact" v-for="link,i in links" :key="i" link :to="{name: link.url}" aria-label="link" exact :title="t('links.'+link.url)"></v-list-item>
         </v-list>
+        
 
         <template v-slot:append>
             <div class="pa-2">
-                <v-btn block variant="text" flat prepend-icon="mdi-phone" class="mb-2 text-caption" color="primary">+998 90 123 45 67</v-btn>
+                <v-btn href="tel:+998908893700" block variant="text" flat prepend-icon="mdi-phone" class="mb-2 text-caption" color="primary">+998 (90) 889 37 00</v-btn>
                 <v-menu location="bottom center" transition="fade-transition">
                     <template #activator="{props}">
                         <v-btn block v-bind="props" variant="outlined" color="primary" class="text-none text-body-2 font-weight-light">
                             <template #prepend>
                                 <v-avatar rounded size="20">
-                                    <v-img :src="currentLang?.img"></v-img>
+                                    <v-img :src="currentLang?.img" alt="site-nav-language image"></v-img>
                                 </v-avatar>
                             </template>
                             <span>{{ currentLang?.title }}</span>
@@ -28,7 +29,7 @@
                         <v-list-item link v-for="lang, i in languages" :key="i" @click="changeLang(lang.lang)">
                             <template #prepend>
                                 <v-avatar rounded size="30">
-                                    <v-img :src="lang.img"></v-img>
+                                    <v-img :src="lang.img" alt="site-nav-language image" class="select language"></v-img>
                                 </v-avatar>
                             </template>
                             <v-list-item-title>{{ lang.title }}</v-list-item-title>

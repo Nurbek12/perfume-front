@@ -14,11 +14,11 @@
         </v-col>
 
         <v-col cols="12" sm="12" md="6">
-          <div class="d-flex flex-column w-100">
-            <span>Lorem ipsum dolor sit amet.</span>
-            <div class="w-100 text-justify mt-2 text-body-2 text-grey-lighten-1">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vitae consequuntur blanditiis, nobis ullam atque impedit sequi voluptatibus tempora eveniet facilis beatae dignissimos voluptas dolorum magnam iure unde adipisci perspiciatis similique!
-            </div>
+          <div class="d-flex flex-column h-100 w-100 rounded overflow-hidden">
+            <iframe title="geolocation" width="100%" height="240px" id="gmap_canvas"
+                src="https://maps.google.com/maps?q=qarshi,kesmedh&t=&z=11&ie=UTF8&iwloc=&output=embed"
+                frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
+            </iframe>
           </div>
         </v-col>
       </v-row>
@@ -35,20 +35,17 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
 const social_links = [
-  { icon: 'mdi-facebook', title: 'Kesh Med', url: '' },
-  { icon: 'mdi-twitter', title: '@kesh.med', url: '' },
-  { icon: 'mdi-linkedin', title: 'Kesh_Med', url: '' },
-  { icon: 'mdi-instagram', title: '@kesh_med_', url: '' },
-  { icon: 'mdi-telegram', title: '@kesh_med', url: '' },
-  { icon: 'mdi-phone', title: '+998 90 123 45 67', url: '' },
+  { icon: 'mdi-gmail', title: 'keshmed37@gmail.com', url: 'mailto:keshmed37@gmail.com' },
+  { icon: 'mdi-instagram', title: '@keshmed37', url: 'https://www.instagram.com/keshmed37' },
+  { icon: 'mdi-telegram', title: '@keshmed37', url: 'https://t.me/keshmed37' },
+  { icon: 'mdi-phone', title: '+998 (90) 889 37 00', url: 'tel:+998908893700' },
+  { icon: 'mdi-whatsapp', title: '+998 (90) 889 37 00', url: 'whatsapp.com' },
 ]
 
 const site_links = [
   { icon: 'mdi-home-outline', title: 'Home Page', url: '/' },
   { icon: 'mdi-magnify', title: 'Products', url: '/products' },
-  { icon: 'mdi-gift-outline', title: 'Gifts Page', url: '/gifts' },
-  { icon: 'mdi-heart-outline', title: 'Saved Products', url: '/saved' },
-  { icon: 'mdi-cart-outline', title: 'Shopping Cart', url: '/cart' },
-  { icon: 'mdi-account-outline', title: 'Profile', url: '/profile' },
+  { icon: 'mdi-gift-outline', title: 'Brand', url: '/brands' },
+  { icon: 'mdi-heart-outline', title: 'Saved', url: '/saved' },
 ]
 </script>

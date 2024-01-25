@@ -21,9 +21,13 @@
 <script setup lang="ts">
 import { useStore } from 'vuex'
 import { useI18n } from 'vue-i18n'
+import { useHead } from '@unhead/vue'
 import { Splide, SplideSlide, Options } from '@splidejs/vue-splide'
 import AppProductCard from '../../components/variant/AppProductCard.vue';
 
+useHead({
+    title: "Сохраненные Оборудования",
+})
 const { t } = useI18n()
 const { getters } = useStore()
 const slideOptions: Options = {

@@ -12,14 +12,14 @@
                     <v-list-item>
                         <template #prepend>
                             <v-avatar rounded size="100">
-                                <v-img :src="(getters.brands as IBrand[])[index].medium_square_crop||'/img/nophoto.jpg'"></v-img>
+                                <v-img :alt="(getters.brands as IBrand[])[index]?.name" :src="(getters.brands as IBrand[])[index].medium_square_crop||'/img/nophoto.jpg'"></v-img>
                             </v-avatar>
                         </template>
                         <template #title>{{ (getters.brands as IBrand[])[index].name }}</template>
                         <template #subtitle>
                             <div class="d-flex gap-1 align-center">
                                 <v-avatar size="25" rounded>
-                                    <v-img :src="countries[(getters.brands as IBrand[])[index].country!].flag"></v-img>
+                                    <v-img alt="flag" :src="countries[(getters.brands as IBrand[])[index].country!].flag"></v-img>
                                 </v-avatar>
                                 <span>{{ countries[(getters.brands as IBrand[])[index].country!].name }}</span>
                             </div>
@@ -38,11 +38,18 @@
 import { ref } from 'vue'
 import { useStore } from 'vuex'
 import { useI18n } from 'vue-i18n'
-// import { baseURL } from '../../api'
+import { useHead, useSeoMeta } from '@unhead/vue'
 import { countries } from '../../assets/countries'
 import { IBrand } from '../../interfaces/index.variant'
 import AppBrandItem from '../../components/variant/AppBrandItem.vue'
 
+useHead({
+    title: "Лучшие Бренды Медицинского Оборудования",
+    meta: [
+        {name: "description", content: "Исследуйте лучшие бренды медицинского оборудования. Надежные производители с высоким качеством и инновационными технологиями. Подберите оптимальное оборудование для вашей медицинской практики."},
+        {name: "keywords", content: "бренды медицинского оборудования, производители здравоохранения, медтехника, инновационные медицинские устройства, выбор профессионалов, обзор брендов"},
+    ]
+})
 const { getters } = useStore()
 const { locale, t } = useI18n()
 const dialog = ref(false)

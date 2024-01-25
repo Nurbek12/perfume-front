@@ -8,19 +8,12 @@
       <v-menu transition="fade-transition">
         <template v-slot:activator="{props}">
           <v-btn class="mx-2" v-bind="props" flat size="40" variant="flat" color="primary" elevation="1">
-            <!-- <v-avatar rounded>
-              <v-img cover :src="currentLang.img" />
-            </v-avatar> -->
             {{currentLang?.lang}}
           </v-btn>
         </template>
 
         <v-list elevation="2" density="compact">
           <v-list-item v-for="(item, i) in languages" link :key="i" @click="changeLang(item.lang)">
-            <!-- <template v-slot:prepend>
-              <v-img :src="item.img" width="27" height="23" cover />
-            </template> -->
-
             <v-list-item-title class="text-caption" v-text="item.title"></v-list-item-title>
           </v-list-item>
         </v-list>

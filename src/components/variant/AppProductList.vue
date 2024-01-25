@@ -2,7 +2,7 @@
     <v-list-item theme="light" variant="flat" color="surface" link :to="`/product/${product!.id}`" border lines="three" rounded class="mb-3 pa-2">
         <template #prepend>
             <v-avatar size="150" rounded color="grey-lighten-3">
-                <v-img :src="product?.images?.[0]?.medium_square_crop || '/img/nophoto.jpg'"></v-img>
+                <v-img :alt="product?.title_uz +' image'" :src="product?.images?.[0]?.medium_square_crop || '/img/nophoto.jpg'"></v-img>
             </v-avatar>
         </template>
         <v-list-item-title class="text-primary text-body-2">{{ product!.brand.name }}</v-list-item-title>

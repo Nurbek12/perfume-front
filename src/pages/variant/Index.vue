@@ -26,7 +26,7 @@ const init = async () => {
         getAllBrands('')
     ])
     
-    commit('SET_CATEGORIES', c.data.results)
+    commit('SET_CATEGORIES', c.data)
     commit('SET_BRANDS', b.data.results)
 }
 

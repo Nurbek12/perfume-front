@@ -1,10 +1,11 @@
 import axios from "axios"
 import store from '../store'
 
-export const baseURL = import.meta.env.VITE_PROXY_URL||''
+export const baseURL = import.meta.env.VITE_PROXY_URL ||''
 // const token = import.meta.env.VITE_PROXY_TOKEN
 
-const api = axios.create({ baseURL: baseURL || '/' })
+const api = axios.create({ baseURL })
+// const api = axios.create({ baseURL: '/' })
 
 api.interceptors.response.use(
   (response) => {
@@ -19,7 +20,7 @@ api.interceptors.response.use(
 
 export function checkToken(){
   const token = store.getters.token
-  if(token) api.defaults.headers.common['Authorization'] = `Token ${token}`
+  if(token) api.defaults.headers.common['Authorization'] = `Bearer ${token}`
 }
 
 checkToken()

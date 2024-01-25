@@ -25,6 +25,7 @@ export default createI18n({
             total_sum: "Total price",
             no_data: "Empty",
             loading: "Loading",
+            saved_products: "Saved Products"
         },
         ru: {
             links: links.ru,
@@ -40,6 +41,7 @@ export default createI18n({
             total_sum: "Обшая сумма",
             no_data: "Пусто",
             loading: "Загрузка",
+            saved_products: "Избранные Продукты"
         },
         uz: {
             links: links.uz,
@@ -55,6 +57,7 @@ export default createI18n({
             total_sum: "Jami summa",
             no_data: "Ma'lumotlar topilmadi",
             loading: "Yuklanyapti",
+            saved_products: "Saqlangan Uskunalar"
         }
     }
 })

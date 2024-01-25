@@ -1,63 +1,77 @@
 <template>
 <v-container theme="light">
     <v-row justify="center">
-        <v-col cols="12" style="height: 70vh;" class="d-flex bg-primary rounded flex-column align-center justify-center mt-1">
-            <div class="text-center">
-                <span class="text-white text-h4 text-md-h4 font-weight-light">{{ t('home.title') }}</span>
+        <v-col cols="12" style="height: 70vh; position: relative;" class="d-flex rounded flex-column align-center justify-center mt-1">
+            <div class="w-100 h-100 px-2" style="position: absolute;">
+                <v-carousel cycle height="100%" hide-delimiter-background :show-arrows="false">
+                    <v-carousel-item v-for="i in 4" :key="i">
+                        <v-avatar class="w-100 h-100" rounded>
+                            <v-img alt="medical" gradient="to top left, rgba(104, 59, 181, 1), rgba(104, 59, 181, .4)" cover :src="`static/carousel/image-${i}.jpg`"></v-img>
+                        </v-avatar>
+                    </v-carousel-item>
+                </v-carousel>
             </div>
-            <v-sheet max-width="650" color="transparent" class="w-100 mt-4 text-center">
-                <p class="text-grey-lighten-2 font-weight-light text-body-2">{{ t('home.desc') }}</p>
-                <v-menu offset="12" transition="fade-transition" :model-value="searchedProducts.length>0" :close-on-content-click="false">
-                    <template #activator="{props}">
-                        <v-text-field
-                            v-bind="props"
-                            class="mt-4"
-                            color="primary"
-                            rounded="lg"
-                            hide-details
-                            @update:model-value="searchProducts"
-                            bg-color="white"
-                            density="comfortable"
-                            variant="outlined"
-                            base-color="primary"
-                            prepend-inner-icon="mdi-magnify"
-                            :placeholder="t('home.search')"
-                            >
-                        </v-text-field>
-                    </template>
-                    <v-list elevation="0" width="100%" nav lines="two" density="compact">
-                        <v-list-item height="65" class="py-1" v-for="item, i in searchedProducts" :key="i" link :to="`/product/${item.id}`">
-                            <template v-slot:prepend>
-                                <v-avatar rounded>
-                                    <v-img cover :src="item.images?.[0]?.medium_square_crop || '/img/nophoto.jpg'"></v-img>
-                                </v-avatar>
-                            </template>
-                            <v-list-item-title class="text-body-2">{{ item[`title_${locale as 'uz'}`] }}</v-list-item-title>
-                            <v-list-item-subtitle class="text-caption mt-1 d-flex align-center gap-1">
-                                <div class="d-flex align-center gap-1 font-weight-bold">
-                                    <v-img width="20" height="20" :src="countries[item.shipping_from].flag"></v-img>
-                                    {{ countries[item.shipping_from].name }}
-                                </div>
-                                {{ item.model }}
-                                <span class="font-weight-bold">{{ item.price }} $</span>
-                            </v-list-item-subtitle>
-                        </v-list-item>
-                    </v-list>
-                </v-menu>
-                
-            </v-sheet>
+            <div style="position: relative; z-index: 1;">
+                <div class="text-center">
+                    <span class="text-white text-h4 text-md-h4 font-weight-light">{{ t('home.title') }}</span>
+                </div>
+                <v-sheet max-width="650" color="transparent" class="w-100 mt-4 text-center">
+                    <p class="text-grey-lighten-2 font-weight-light text-body-2">{{ t('home.desc') }}</p>
+                    <v-menu offset="12" transition="fade-transition" :model-value="searchedProducts.length>0" :close-on-content-click="false">
+                        <template #activator="{props}">
+                            <v-text-field
+                                v-bind="props"
+                                class="mt-4"
+                                color="primary"
+                                rounded="lg"
+                                hide-details
+                                type="search"
+                                @update:model-value="searchProducts"
+                                bg-color="white"
+                                density="comfortable"
+                                autofocus
+                                variant="outlined"
+                                base-color="primary"
+                                aria-label="search products"
+                                role="text"
+                                prepend-inner-icon="mdi-magnify"
+                                :placeholder="t('home.search')"
+                                >
+                            </v-text-field>
+                        </template>
+                        <v-list elevation="0" width="100%" nav lines="two" density="compact">
+                            <v-list-item height="65" class="py-1" v-for="item, i in searchedProducts" :key="i" link :to="`/product/${item.id}`">
+                                <template v-slot:prepend>
+                                    <v-avatar rounded>
+                                        <v-img alt="searched images" cover :src="item.images?.[0]?.medium_square_crop || '/img/nophoto.jpg'"></v-img>
+                                    </v-avatar>
+                                </template>
+                                <v-list-item-title class="text-body-2">{{ item[`title_${locale as 'uz'}`] }}</v-list-item-title>
+                                <v-list-item-subtitle class="text-caption mt-1 d-flex align-center gap-1">
+                                    <div class="d-flex align-center gap-1 font-weight-bold">
+                                        <v-img alt="flag" width="20" height="20" :src="countries[item.shipping_from].flag"></v-img>
+                                        {{ countries[item.shipping_from].name }}
+                                    </div>
+                                    {{ item.model }}
+                                    <span class="font-weight-bold">{{ item.price }} $</span>
+                                </v-list-item-subtitle>
+                            </v-list-item>
+                        </v-list>
+                    </v-menu>
+                </v-sheet>
+            </div>
         </v-col>
 
         <v-col cols="12" class="px-2">
             <v-sheet width="100%" color="surface" class="mt-8 py-4 pl-4 rounded border">
                 <v-row>
-                    <v-col cols="12" sm="6" md="3" v-for="item, i in icons2" :key="i">
-                        <v-list-item nav lines="two">
+                    <v-col cols="12" sm="6" md="3" v-for="item, i in home_service_cards" :key="i">
+                        <v-list-item nav lines="three">
                             <template #prepend>
                                 <v-icon size="35" color="primary">{{ item.icon }}</v-icon>
                             </template>
-                            <v-list-item-title>{{ item.title }}</v-list-item-title>
-                            <v-list-item-subtitle>{{ item.subtitle }}</v-list-item-subtitle>
+                            <v-list-item-title>{{ t(item.title) }}</v-list-item-title>
+                            <v-list-item-subtitle>{{ $t(item.subtitle)}}</v-list-item-subtitle>
                         </v-list-item>
                     </v-col>
                 </v-row>
@@ -78,7 +92,7 @@
         <v-col cols="12">
             <div class="w-100 py-4 d-flex justify-space-between align-center">
                 <span class="text-primary">{{ t('home.recomended') }}</span>
-                <v-btn append-icon="mdi-arrow-right" color="primary" variant="text" class="text-none font-weight-light">
+                <v-btn to="/products" append-icon="mdi-arrow-right" color="primary" variant="text" class="text-none font-weight-light">
                     <span>{{ t('home.see_all') }}</span>
                 </v-btn>
             </div>
@@ -95,9 +109,9 @@
             </div>
             <v-sheet width="100%" border rounded>
                 <v-expansion-panels variant="accordion">
-                    <v-expansion-panel elevation="0" v-for="i in 4" :key="i">
-                        <v-expansion-panel-title class="font-weight-medium">{{i}}. Далеко-далеко за словесными горами?</v-expansion-panel-title>
-                        <v-expansion-panel-text class="text-body-2">Далеко-далеко за, словесными горами в стране гласных и согласных живут рыбные тексты. Переписали, проектах великий ручеек текст ты о переулка коварный даль необходимыми страну букв текстами вопроса деревни там ведущими заголовок. Рукописи напоивший то рыбного заманивший по всей семантика переписали послушавшись последний сих первую грамматики это бросил страну деревни, до парадигматическая ручеек себя.</v-expansion-panel-text>
+                    <v-expansion-panel elevation="0" v-for="f,i in faqs" :key="i">
+                        <v-expansion-panel-title class="font-weight-normal text-subtitle-2">{{i+1}}. {{ f.question[locale as 'uz'] }}</v-expansion-panel-title>
+                        <v-expansion-panel-text class="text-body-2">{{ f.answer[locale as 'uz'] }}</v-expansion-panel-text>
                     </v-expansion-panel>
                 </v-expansion-panels>
             </v-sheet>
@@ -111,12 +125,21 @@ import { ref } from 'vue'
 import { useStore } from 'vuex'
 import { debounce } from 'lodash'
 import { useI18n } from 'vue-i18n'
-import { icons2 } from '../../constants'
+import { useHead } from '@unhead/vue'
+import { home_service_cards, faqs } from '../../constants'
 import { countries } from '../../assets/countries'
 import { getAllProducts } from '../../api/products'
 import { IProduct } from '../../interfaces/index.variant'
 import AppProductCard from '../../components/variant/AppProductCard.vue'
 import AppHomeCategory from '../../components/variant/AppHomeCategory.vue'
+
+useHead({
+    title: "Медицинское Оборудование в Узбекистане",
+    meta: [
+        {name: "description", content: "Современное и надежное медицинское оборудование в Узбекистане. Диагностика, лечение, реабилитация — мы предоставляем передовые решения для вашей клиники. Партнеры лучших мировых производителей обеспечивают качество и эффективность. Получите консультацию и поддержку от наших экспертов. Обеспечьте вашу клинику современным оборудованием для заботы о здоровье пациентов."},
+        {name: "keywords", content: "Медицинское Оборудование в Узбекистане, медицинское оборудование, медицинское оборудование в кашкадарйе, медицинское оборудование в азии, медицинское, оборудование, tibbiy uskunalar, o'zbekistondagi tibbiy uskunalar, tibbiy, uskunalar, osiyodagi tibbiy uskunalar, qashqadaryo tibbiy uskunalar, Medical Equipment in Uzbekistan, medical equipment, medical equipment in Kashkadarya, medical equipment in Asia, medical equipment"},
+    ]
+})
 
 const products = ref([])
 const { getters } = useStore()

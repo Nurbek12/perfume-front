@@ -4,9 +4,9 @@
             <v-col cols="12" v-if="!loading">
                 <v-card border flat>
                     <v-card-text class="d-flex gap-1 align-center">
-                        <router-link class="text-decoration-none text-black text-hover-link" v-if="product?.category?.parent?.parent" :to="`/products?category=${product.category.parent.parent.id}`">{{ product.category.parent.parent[`name_${locale as 'uz'}`] }} /</router-link>
+                        <!-- <router-link class="text-decoration-none text-black text-hover-link" v-if="product?.category?.parent?.parent" :to="`/products?category=${product.category.parent.parent.id}`">{{ product.category.parent.parent[`name_${locale as 'uz'}`] }} /</router-link>
                         <router-link class="text-decoration-none text-black text-hover-link" v-if="product?.category?.parent" :to="`/products?category=${product.category.parent.id}`">{{ product.category.parent[`name_${locale as 'uz'}`] }} /</router-link>
-                        <router-link class="text-decoration-none text-black text-hover-link" v-if="product?.category?.id" :to="`/products?category=${product.category.id}`">{{ product.category[`name_${locale as 'uz'}`] }}</router-link>
+                        <router-link class="text-decoration-none text-black text-hover-link" v-if="product?.category?.id" :to="`/products?category=${product.category.id}`">{{ product.category[`name_${locale as 'uz'}`] }}</router-link> -->
                     </v-card-text>
                 </v-card>
             </v-col>
@@ -14,14 +14,14 @@
                 <v-skeleton-loader :loading="loading" type="image,image,button,button,button,button">
                     <v-card flat width="100%" border>
                         <v-avatar rounded size="100%">
-                            <v-img height="400" width="100%" :src="product?.images?.[currentImage]?.image || '/img/nophoto.jpg'"></v-img>
+                            <v-img :alt="product?.title_ru" height="400" width="100%" :src="product?.images?.[currentImage]?.image || '/img/nophoto.jpg'"></v-img>
                         </v-avatar>
                         <v-divider></v-divider>
                         <v-card-actions class="pa-0 d-flex justify-center" v-if="product?.images.length!==0">
                             <v-slide-group v-model="currentImage" class="pa-2" mandatory selected-class="bg-primary" show-arrows>
                                 <v-slide-group-item v-slot="{ isSelected, toggle }" v-for="image, i in product?.images" :key="i">
                                     <v-avatar size="50" rounded @click="toggle" :color="!isSelected ? 'grey-lighten-3' : 'primary'" class="mx-1 pa-1">
-                                        <v-img :src="image?.thumbnail || '/img/nophoto.jpg'" cover></v-img>
+                                        <v-img alt="thumb" :src="image?.thumbnail || '/img/nophoto.jpg'" cover></v-img>
                                     </v-avatar>
                                 </v-slide-group-item>
                             </v-slide-group>
@@ -63,7 +63,7 @@
                                         <td class="text-right">
                                             <div class="d-flex align-center gap-1 justify-end">
                                                 <v-avatar size="30">
-                                                    <v-img cover :src="countries[product?.shipping_from!]?.flag"></v-img>
+                                                    <v-img alt="flag" cover :src="countries[product?.shipping_from!]?.flag"></v-img>
                                                 </v-avatar>
                                                 <span>{{ countries[product?.shipping_from!]?.name }}</span>
                                             </div>
@@ -79,7 +79,7 @@
                                                     <v-list-item v-for="cn,i in product?.sales_areas" :key="i">
                                                         <template #prepend>
                                                             <v-avatar rounded>
-                                                                <v-img :src="countries[cn]?.flag"></v-img>
+                                                                <v-img alt="flag" :src="countries[cn]?.flag"></v-img>
                                                             </v-avatar>
                                                         </template>
                                                         <template #title>{{ countries[cn]?.name }}</template>
@@ -107,12 +107,12 @@
                             <span>{{ t('products.contact_us') }}</span>
                             <v-row class="pa-2 mt-0">
                                 <v-col cols="6" md="4" class="pa-1">
-                                    <v-btn height="35" prepend-icon="mdi-telegram" block color="#0088cc" variant="flat" class="text-none">
+                                    <v-btn href="https://t.me/Keshmed37" height="35" prepend-icon="mdi-telegram" block color="#0088cc" variant="flat" class="text-none">
                                         {{ t('products.telegram') }}
                                     </v-btn>
                                 </v-col>
                                 <v-col cols="6" md="4" class="pa-1">
-                                    <v-btn height="35" prepend-icon="mdi-phone" block color="green" variant="flat" class="text-none">
+                                    <v-btn href="tel:+998908893700" height="35" prepend-icon="mdi-phone" block color="green" variant="flat" class="text-none">
                                         {{ t('products.call') }}
                                     </v-btn>
                                 </v-col>
