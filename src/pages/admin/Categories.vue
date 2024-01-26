@@ -1,10 +1,10 @@
 <template>
   <v-container fluid>
     <v-row justify="space-between" align="center">
-        <v-col cols="9" sm="6" md="4" class="pb-0 pr-0">
+        <!-- <v-col cols="9" sm="6" md="4" class="pb-0 pr-0">
             <v-text-field bg-color="surface" v-model="search" :placeholder="t('admin.search')" append-inner-icon="mdi-magnify" hide-details flat density="compact" variant="solo" class="border rounded"></v-text-field>
-        </v-col>
-        <v-col cols="3" sm="4" md="2" class="pb-0 d-flex justify-end">
+        </v-col> -->
+        <v-col cols="12" class="pb-0 d-flex justify-end">
             <v-btn @click="dialog=true" flat color="primary" size="43" width="100%">
                 <v-icon>mdi-plus</v-icon>
             </v-btn>
@@ -85,7 +85,7 @@
                 />
             </v-col>
             <v-col cols="12" class="pa-2">
-              <v-btn color="primary"
+              <v-btn color="primary" :disabled="save_loading"
                 block @click="save" height="45">
                 {{ t('admin.save') }}
               </v-btn>
@@ -107,12 +107,12 @@ import { createCategory, getTree, updateCategory, deleteCategory, getAllCategori
 
 const { t, locale } = useI18n()
 const loading = ref(false)
-const editedId: Ref<any> = ref(-1)
+const save_loading = ref(false)
+const editedId: Ref<any> = ref(null)
 const search: Ref<string> = ref("")
 const dialog: Ref<boolean> = ref(false)
 const items: Ref<ICategory[]> = ref([])
 const all: Ref<ICategory[]> = ref([])
-const editedIndex: Ref<number> = ref(-1)
 const indexes: Ref<number[]> = ref([])
 
 const editedItem = ref<ICategory>({
@@ -128,14 +128,11 @@ const defaultItem = {
   name_ru: "",
   name_en: "",  
 }
-const filterOnlyCapsText: any = (value: string, query: string, item: {raw: ICategory}) => {
-  query=query.toString().toLocaleLowerCase();
-  return Object.values(item.raw).some(v => v && v.toString().toLocaleLowerCase().includes(query))
-}
 
 watch(dialog, (v)=>v||close())
 
-const addItem = (index: number[]) => {
+const addItem = (index: number[], parent: number) => {
+  editedItem.value.parent = parent
   indexes.value = index
   dialog.value = true
 }
@@ -148,9 +145,16 @@ const editItem = (item: ICategory, index: number[]) => {
 }
 
 const deleteItem = async (item: ICategory, index: number[]) => {
-  indexes.value = index
   if(!confirm('Do you delete this item?')) return
-  // items.value.splice(index, 1)
+  if(index.length === 1)
+    items.value.splice(index[0], 1)
+
+  if(index.length === 2)
+    items.value[index[0]].children.splice(index[1], 1)
+      
+  if(index.length === 3)
+    items.value[index[0]].children[index[1]].children.splice(index[2], 1)
+
   await deleteCategory(item.id)
 }
 
@@ -158,15 +162,14 @@ const close = () => {
   dialog.value = false
   nextTick(() => {
     editedItem.value = Object.assign({}, defaultItem) as any
-    editedId.value = -1
-    editedIndex.value = -1
+    editedId.value = null
     indexes.value = []
   })
 }
 
 const save = async () => {
-  if (editedIndex.value > -1) {
-    console.log(editedItem.value);
+  save_loading.value = true
+  if (editedId.value !== null) {
     const { data } = await updateCategory(editedItem.value.id, editedItem.value)
     
     if(data.children) delete data.children
@@ -182,19 +185,22 @@ const save = async () => {
   
   } else {
     const { data } = await createCategory(editedItem.value)
-  
+    console.log(data);
+    all.value.push(data)
+
     if(indexes.value.length === 0)
-      items.value.push(data)
+      items.value.push({...data, children: []})
     
     if(indexes.value.length === 1)
-      items.value[indexes.value[0]].children.push(data)
+      items.value[indexes.value[0]].children.push({...data, children: []})
       
     if(indexes.value.length === 2)
-      items.value[indexes.value[0]].children[indexes.value[1]].children.push(data)
-      
+      items.value[indexes.value[0]].children[indexes.value[1]].children.push({...data, children: []})
+
     if(indexes.value.length === 3)
-      items.value[indexes.value[0]].children[indexes.value[1]].children[indexes.value[2]].children.push(data)
+      items.value[indexes.value[0]].children[indexes.value[1]].children[indexes.value[2]].children.push({...data, children: []})
   }
+  save_loading.value = false
   close()
 }
 
@@ -202,7 +208,6 @@ const loadItems = async () => {
   loading.value = true
   const { data } = await getTree()
   if(!data) return
-  console.log(data)
   items.value = data
   loading.value = false
 }
@@ -212,37 +217,9 @@ const init = async () => {
     getAllCategories(''),
     loadItems()
   ])
-
-  all.value = tree.data.result
+  all.value = tree.data.results
 }
 
-// const data = [
-//     {
-//         "id": 1,
-//         "lft": 1,
-//         "rght": 4,
-//         "tree_id": 1,
-//         "level": 0,
-//         "name_en": "asfasdf",
-//         "name_ru": "asdfadsf",
-//         "name_uz": "adsfasdf",
-//         "parent": null,
-//         "children": [
-//             {
-//                 "id": 2,
-//                 "lft": 2,
-//                 "rght": 3,
-//                 "tree_id": 1,
-//                 "level": 1,
-//                 "name_en": "uyogkhgk",
-//                 "name_ru": "hjjlhluyiu",
-//                 "name_uz": "luhliuhliuh",
-//                 "parent": 1,
-//                 "children": []
-//             }
-//         ]
-//     }
-// ]
 
 init()
 </script>

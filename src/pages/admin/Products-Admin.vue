@@ -29,7 +29,7 @@
                             <template #item.actions="{ item, index, column }">
                                 <td :data-label="column.title">
                                     <div class="d-flex w-100 justify-space-end align-center">
-                                        <!-- <v-btn @click="editItem(index, item)" color="light-blue-accent-4" size="30" flat class="mr-1"><v-icon>mdi-pencil</v-icon></v-btn> -->
+                                        <v-btn @click="editItem(index, item)" color="light-blue-accent-4" size="30" flat class="mr-1"><v-icon>mdi-pencil</v-icon></v-btn>
                                         <v-btn @click="deleteItem(index, item.id!)" color="red" size="30" flat><v-icon>mdi-delete</v-icon></v-btn>
                                     </div>
                                 </td>
@@ -298,7 +298,7 @@
                             ></v-switch>
                         </v-col>
                         <v-col cols="4" class="pa-2">
-                            <v-btn color="primary" flat block @click="save" height="45">{{ t('admin.save') }}</v-btn>
+                            <v-btn :disabled="save_loading" color="primary" flat block @click="save" height="45">{{ t('admin.save') }}</v-btn>
                         </v-col>
                     </v-row>
                 </v-form>
@@ -328,6 +328,7 @@ const totalCount = ref(0)
 const loading = ref(false)
 const images = ref<File[]>([])
 const { t, locale } = useI18n()
+const save_loading = ref(false)
 const brands = ref<IBrand[]>([])
 const items = ref<IProduct[]>([])
 const dialog = ref<boolean>(false)
@@ -408,7 +409,6 @@ const loadItems = async () => {
     const { data } = await getAllProducts(qs.value)
     items.value = data.results
     totalCount.value = data.count
-    console.log(data);
     loading.value = false
 }
 
@@ -423,7 +423,7 @@ const pushImages = (e: any) => {
 const save = async () => {
     const { valid } = await form.value?.validate();
     if (!valid) return
-
+    save_loading.value = true
     
     if(editedId.value) {
         if(typeof product.value.brand === "object") product.value.brand = (product.value.brand as any).id
@@ -439,16 +439,20 @@ const save = async () => {
     }else {
         const { data } = await createProduct(product.value)
         editedId.value = data.id
-        items.value.push(data)
+        items.value.push({
+            ...data,
+            category: categories.value.find(c => c.id === data.category),
+            brand: brands.value.find(b => b.id === data.brand),
+        })
     }
     
     images.value && images.value.forEach(async (image) => {
         var form_data = new FormData()
         form_data.append('image', image)
-        const { data } = await sendImage(editedId.value as any, form_data)
-        console.log(data)
+        await sendImage(editedId.value as any, form_data)
     })
 
+    save_loading.value = false
     close()
 }
 
@@ -491,6 +495,7 @@ const close = () => {
         }) as any;
         editedId.value = null;
         editedIndex.value = null
+        images.value = []
         form.value?.reset()
     });
 }

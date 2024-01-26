@@ -4,9 +4,9 @@
             <v-col cols="12" v-if="!loading">
                 <v-card border flat>
                     <v-card-text class="d-flex gap-1 align-center">
-                        <!-- <router-link class="text-decoration-none text-black text-hover-link" v-if="product?.category?.parent?.parent" :to="`/products?category=${product.category.parent.parent.id}`">{{ product.category.parent.parent[`name_${locale as 'uz'}`] }} /</router-link>
-                        <router-link class="text-decoration-none text-black text-hover-link" v-if="product?.category?.parent" :to="`/products?category=${product.category.parent.id}`">{{ product.category.parent[`name_${locale as 'uz'}`] }} /</router-link>
-                        <router-link class="text-decoration-none text-black text-hover-link" v-if="product?.category?.id" :to="`/products?category=${product.category.id}`">{{ product.category[`name_${locale as 'uz'}`] }}</router-link> -->
+                        <router-link class="text-decoration-none text-black text-hover-link" v-if="product?.category?.parent?.parent" :to="`/products?category=${product.category.parent.parent.id}`">{{ product.category.parent.parent[`name_${locale as 'uz'}`] }} /</router-link>
+                        <router-link class="text-decoration-none text-black text-hover-link" v-if="product?.category?.parent" :to="`/products?category=${product.category.parent?.id}`">{{ product.category.parent[`name_${locale as 'uz'}`] }} /</router-link>
+                        <router-link class="text-decoration-none text-black text-hover-link" v-if="product?.category?.id" :to="`/products?category=${product.category.id}`">{{ product.category[`name_${locale as 'uz'}`] }}</router-link>
                     </v-card-text>
                 </v-card>
             </v-col>
@@ -269,11 +269,18 @@ const itemProps = (item: any) => {
 }
 const init = async () => {
     loading.value = true
-    const { data } = await getProductById(params.id as any, 'expand=images,category,brand')
-    product.value = data
-    
-    loading.value = false
-    getSimilar(data.category.id, data.brand.id)
+    try {
+        const { data } = await getProductById(params.id as any, 'expand=images,category,brand')
+        product.value = data
+        console.log(data);
+        
+        
+        loading.value = false
+        getSimilar(data.category.id, data.brand.id)
+    } catch (error) {
+        alert({'uz':"Bunday Qurilma topilmadi!", 'ru': "Данное оборудование не найдено!", en: "This Equipment not found!"}[locale.value])
+        window.location.href = '/products'
+    }
 }
 const handleReview = async () => {
     const { valid } = await form.value?.validate()

@@ -96,7 +96,7 @@ export default createStore({
             localStorage.removeItem('user')
             localStorage.removeItem('token')
             // cookie.remove('token')
-            // window.location.href = '/login'
+            window.location.href = '/login'
         }
     },
 })

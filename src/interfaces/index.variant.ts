@@ -19,7 +19,7 @@ export interface IProduct {
     for_sale: boolean
     brand: IBrand
     model: string
-    category: ICategory
+    category: ICategory | any
     category_1?: any
     category_2?: any
     category_3?: any

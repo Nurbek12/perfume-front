@@ -23,7 +23,7 @@
                                     ></v-text-field>
                                 </v-col>
                                 <v-col cols="12" class="pa-2">
-                                    <v-btn @click="handleLogin" block color="primary" flat>Login</v-btn>
+                                    <v-btn :disabled="loading" @click="handleLogin" block color="primary" flat>Login</v-btn>
                                 </v-col>
                             </v-row>
                         </v-form>
@@ -46,6 +46,7 @@ const router = useRouter()
 const { commit } = useStore()
 const show = ref(false)
 const err = ref(false)
+const loading = ref(false)
 const form = ref<any>(false)
 const user_login = reactive({
     username: "",
@@ -54,6 +55,7 @@ const user_login = reactive({
 
 const handleLogin = async () => {
     err.value = false
+    loading.value = true
     const { valid } = await form.value?.validate();
     if (!valid) return
     try {
@@ -65,6 +67,8 @@ const handleLogin = async () => {
         }
     } catch (error) {
         err.value = true
+    } finally {
+        loading.value = false
     }
 }
 </script>

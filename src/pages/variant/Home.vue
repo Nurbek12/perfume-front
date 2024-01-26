@@ -155,7 +155,6 @@ const searchProducts = debounce(async (e: string|null) => {
     if(!e?.trim()) return searchedProducts.value = []
     const { data } = await getAllProducts(`?search=${e}&limit=50`)
     searchedProducts.value = data.results
-    console.log(data.results)
 }, 500)
 
 init()

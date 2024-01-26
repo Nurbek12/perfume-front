@@ -112,7 +112,7 @@
                   </v-row>
               </v-col>
               <v-col cols="12" class="pa-2">
-                <v-btn color="primary" block @click="save" height="45">
+                <v-btn :disabled="save_loading" color="primary" block @click="save" height="45">
                   {{ t('admin.save') }}
                 </v-btn>
               </v-col>
@@ -146,6 +146,7 @@ const items: Ref<IBrand[]> = ref([])
 const editedId: Ref<any> = ref(null)
 const editedIndex: Ref<any> = ref(-1)
 const dialog: Ref<boolean> = ref(false)
+const save_loading = ref(false)
 const form = ref<HTMLFormElement|null>(null)
         
 const itemProps = (item: any) => ({ title: item.name, 'append-avatar': item.flag })
@@ -168,20 +169,6 @@ const headers = [
   { title: "products.shipping", key: "country" },
   { title: "admin.actions", align: 'end', key: "actions", sortable: false },
 ]
-// const qs = computed(() => {
-//   const params = new URLSearchParams();
-
-//   if (page.value) 
-//       params.append('page', String(page.value))
-
-//   if (perpage.value) 
-//       params.append('perpage', String(perpage.value))
-
-//   if (search.value.trim())
-//       params.append('search', search.value)
-
-//   return params.toString()
-// })
 const perpagetext = computed(() => {
   const page_1 = (page.value - 1) * perpage.value;
   return `${page_1 + 1}-${page_1 + items.value.length} / ${totalCount.value}`
@@ -222,6 +209,7 @@ const close = () => {
     })
 }
 const save = async () => {
+  save_loading.value = true
   const { valid } = await form.value?.validate();
   if (!valid) return
 
@@ -239,6 +227,7 @@ const save = async () => {
     const { data } = await createBrand(form_data)
     items.value.push(data)
   }
+  save_loading.value = false
   close()
 }
 const loadItems = async () => {
@@ -246,7 +235,6 @@ const loadItems = async () => {
   const { data } = await getAllBrands('')
   items.value = data.results
   totalCount.value = data.results.length
-  console.log(data)
   loading.value = false
 }
 

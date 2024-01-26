@@ -29,7 +29,8 @@ const routes: RouteRecordRaw[] = [
             { path: 'orders', name: "adminorders", component: () => import('./pages/admin/Orders.vue') },
         ]
     },
-    { path: '/login', name: 'login', component: () => import('./pages/admin/Login.vue') }
+    { path: '/login', name: 'login', component: () => import('./pages/admin/Login.vue') },
+    { path: "/:pathMatch(.*)*", name: "notfound", component: () => import('./pages/404page.vue')}
 ]
 
 export default createRouter({
