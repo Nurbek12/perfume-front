@@ -1,5 +1,5 @@
 <template>
-    <v-card border flat theme="light">
+    <v-card border flat theme="light" class="pt-2">
         <v-img width="100%" height="200" :alt="item.title_ru+' image'" :src="item?.images?.[0]?.medium_square_crop||'/img/nophoto.jpg'"></v-img>
         <v-divider class="mb-1"></v-divider>
         <router-link :to="`/product/${item.id}`" class="px-3 text-decoration-none font-weight-medium text-subtitle-1 py-1 text-primary">{{ item?.[`title_${locale as 'uz'}`] }}</router-link>

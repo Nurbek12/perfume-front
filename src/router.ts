@@ -4,6 +4,7 @@ import store from './store'
 const beforeEnter = (_: any, __: any, next: any) => {
     if (!store.getters.isLogged) next('/login')
     else next()
+    // next()
 }
 
 const routes: RouteRecordRaw[] = [

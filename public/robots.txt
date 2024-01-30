@@ -1,4 +1,7 @@
+User-agent: Googlebot
+Disallow: /nogooglebot/
+
 User-agent: *
-Disallow:
+Allow: /
 
 Sitemap: https://www.keshmed.uz/5777762_9.xml

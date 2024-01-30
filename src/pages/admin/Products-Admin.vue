@@ -1,11 +1,11 @@
 <template>
-  <v-container fluid>
+  <v-container fluid class="py-0">
     <v-row justify="space-between" align="center">
         <v-col cols="9" sm="6" md="4" class="pb-0 pr-0">
             <v-text-field bg-color="surface" @update:modelValue="debounceSearch" :placeholder="t('admin.search')" append-inner-icon="mdi-magnify" hide-details density="compact" variant="solo" flat class="border rounded"></v-text-field>
         </v-col>
         <v-col cols="3" sm="4" md="2" class="pb-0 d-flex justify-end">
-            <v-btn @click="dialog=true" flat color="primary" size="43" width="100%">
+            <v-btn @click="dialog=true" elevation="2" color="primary" size="40" width="100%">
                 <v-icon>mdi-plus</v-icon>
             </v-btn>
         </v-col>

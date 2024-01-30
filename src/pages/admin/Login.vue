@@ -3,8 +3,13 @@
         <v-container class="h-screen">
             <v-row justify="center" align="center" class="h-100">
                 <v-card border flat max-width="400" width="100%">
-                    <v-card-title class="text-primary text-center">Login to Admin Panel</v-card-title>
-                    <v-card-text class="text-red text-center py-0" v-if="err">Login or password incorret</v-card-text>
+                    <div class="d-flex justify-center align-center">
+                        <v-avatar size="150" rounded>
+                            <v-img src="/static/keshmed-logo.png" cover></v-img>
+                        </v-avatar>
+                    </div>
+                    <v-card-title class="text-primary text-center mb-4">Войти в панель администратора</v-card-title>
+                    <v-card-text class="text-red text-center py-0" v-if="err">Неправильный логин или пароль</v-card-text>
                     <v-card-text>
                         <v-form ref="form">
                             <v-row class="pa-2">
@@ -23,7 +28,7 @@
                                     ></v-text-field>
                                 </v-col>
                                 <v-col cols="12" class="pa-2">
-                                    <v-btn :disabled="loading" @click="handleLogin" block color="primary" flat>Login</v-btn>
+                                    <v-btn :disabled="loading" @click="handleLogin" block color="primary" flat>Войти в систему</v-btn>
                                 </v-col>
                             </v-row>
                         </v-form>

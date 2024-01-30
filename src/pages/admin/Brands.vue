@@ -1,66 +1,66 @@
 <template>
-  <v-container fluid>
+  <v-container fluid class="py-0">
     <v-row justify="space-between" align="center">
       <v-col cols="9" sm="6" md="4" class="pb-0 pr-0">
         <v-text-field bg-color="surface" @update:modelValue="debounceSearch" :placeholder="t('admin.search')" append-inner-icon="mdi-magnify" hide-details flat density="compact" variant="solo" class="border rounded"></v-text-field>
       </v-col>
       <v-col cols="3" sm="4" md="2" class="pb-0 d-flex justify-end">
-          <v-btn @click="dialog=true" flat color="primary" size="43" width="100%">
-              <v-icon>mdi-plus</v-icon>
-          </v-btn>
+        <v-btn @click="dialog=true" color="primary" size="40" width="100%">
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
       </v-col>
       <v-col cols="12">
-          <v-card flat border="">
-              <v-card-title class="px-4 pt-3 font-weight-light">{{ t('products.brands') }}</v-card-title>
-              <v-card-text class="px-0">
-                  <div class="responsive-datatable">
-                      <v-data-table 
-                        :page="page"
-                        item-value="id"
-                        :search="search"
-                        :loading="loading"
-                        hover :items="items" 
-                        :items-per-page="perpage"
-                        :no-data-text="t('no_data')"
-                        :loading-text="t('loading')+'...'"
-                        :headers="(localizedHeaders as any)" 
-                        density="comfortable">
-                        <template #bottom></template>
-                        <template #item.actions="{ item, index, column }">
-                            <td :data-label="column.title" class="d-flex justify-space-between align-center">
-                                <span></span>
-                                <div>
-                                  <v-btn @click="editItem(item, index)" color="light-blue-accent-4" size="30" flat class="mr-1"><v-icon>mdi-pencil</v-icon></v-btn>
-                                  <v-btn @click="deleteItemConfirm(item.id!, index)" color="light-blue-accent-4" size="30" flat><v-icon>mdi-delete</v-icon></v-btn>
-                                </div>
-                            </td>
-                        </template>
-                        <template #item.photo="{item, column}">
-                          <td :data-label="column.title">
-                            <v-avatar size="40" rounded>
-                              <v-img :src="item.thumbnail||'/img/nophoto.jpg'" cover></v-img>
-                            </v-avatar>
+        <v-card flat border="">
+            <v-card-title class="px-4 pt-3 font-weight-light">{{ t('products.brands') }}</v-card-title>
+            <v-card-text class="px-0">
+                <div class="responsive-datatable">
+                    <v-data-table 
+                      :page="page"
+                      item-value="id"
+                      :search="search"
+                      :loading="loading"
+                      hover :items="items" 
+                      :items-per-page="perpage"
+                      :no-data-text="t('no_data')"
+                      :loading-text="t('loading')+'...'"
+                      :headers="(localizedHeaders as any)" 
+                      density="comfortable">
+                      <template #bottom></template>
+                      <template #item.actions="{ item, index, column }">
+                          <td :data-label="column.title" class="d-flex justify-space-between align-center">
+                              <span></span>
+                              <div>
+                                <v-btn @click="editItem(item, index)" color="light-blue-accent-4" size="30" flat class="mr-1"><v-icon>mdi-pencil</v-icon></v-btn>
+                                <v-btn @click="deleteItemConfirm(item.id!, index)" color="red" size="30" flat><v-icon>mdi-delete</v-icon></v-btn>
+                              </div>
                           </td>
-                        </template>
-                        <template #item.name="{ item, column }">
-                          <td :data-label="column.title">{{ item.name }}</td>
-                        </template>
-                        <template #item.country="{item, column}">
-                          <td :data-label="column.title">
-                            <v-list-item nav density="compact">
-                                <template #prepend>
-                                    <v-avatar size="30">
-                                        <v-img cover :src="countries[item.country!].flag"></v-img>
-                                    </v-avatar>
-                                </template>
-                                <v-list-item-title>{{ countries[item.country!].name }}</v-list-item-title>
-                            </v-list-item>
-                          </td>
-                        </template>
-                      </v-data-table>
-                  </div>
-              </v-card-text>
-          </v-card>
+                      </template>
+                      <template #item.photo="{item, column}">
+                        <td :data-label="column.title">
+                          <v-avatar size="40" rounded>
+                            <v-img :src="item.thumbnail||'/img/nophoto.jpg'" cover></v-img>
+                          </v-avatar>
+                        </td>
+                      </template>
+                      <template #item.name="{ item, column }">
+                        <td :data-label="column.title">{{ item.name }}</td>
+                      </template>
+                      <template #item.country="{item, column}">
+                        <td :data-label="column.title">
+                          <v-list-item nav density="compact">
+                              <template #prepend>
+                                  <v-avatar size="30">
+                                      <v-img cover :src="countries[item.country!].flag"></v-img>
+                                  </v-avatar>
+                              </template>
+                              <v-list-item-title>{{ countries[item.country!].name }}</v-list-item-title>
+                          </v-list-item>
+                        </td>
+                      </template>
+                    </v-data-table>
+                </div>
+            </v-card-text>
+        </v-card>
       </v-col>
       <v-col cols="12" sm="4" class="pt-0 pb-1 d-flex align-center">
           <v-select bg-color="surface" v-model="perpage" transition="fade-transition" hide-details flat density="compact" variant="solo" class="border rounded" :items="[10,25,50,100,150]"></v-select>

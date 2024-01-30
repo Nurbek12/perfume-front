@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid class="py-0">
     <v-row justify="space-between" align="center">
         <v-col cols="12" sm="6" md="4" class="pb-0">
             <v-text-field bg-color="surface" @update:modelValue="debounceSearch" :placeholder="t('admin.search')" append-inner-icon="mdi-magnify" hide-details flat density="compact" variant="solo" class="border rounded"></v-text-field>

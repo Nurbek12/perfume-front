@@ -5,7 +5,7 @@
             <div class="d-flex gap-1">
                 <v-btn @click="$emit('addItem', [j], item.id)" color="light-blue-accent-4" size="30" flat><v-icon>mdi-plus</v-icon></v-btn>
                 <v-btn @click="$emit('editItem',item, [j])" color="light-blue-accent-4" size="30" flat><v-icon>mdi-pencil</v-icon></v-btn>
-                <v-btn @click="$emit('deleteItem',item, [j])" color="light-blue-accent-4" size="30" flat><v-icon>mdi-delete</v-icon></v-btn>
+                <v-btn @click="$emit('deleteItem',item, [j])" color="red" size="30" flat><v-icon>mdi-delete</v-icon></v-btn>
                 <v-btn v-show="item.children?.length!==0" @click="level1=(level1===j?null:j)" color="light-blue-accent-4" size="30" flat><v-icon>mdi-{{ level1===j?'chevron-up':'chevron-down' }}</v-icon></v-btn>
             </div>
         </div>
@@ -16,7 +16,7 @@
                     <div class="d-flex gap-1">
                         <v-btn @click="$emit('addItem', [j,i], item1.id)" color="light-blue-accent-4" size="30" flat><v-icon>mdi-plus</v-icon></v-btn>
                         <v-btn @click="$emit('editItem',item1, [j,i])" color="light-blue-accent-4" size="30" flat><v-icon>mdi-pencil</v-icon></v-btn>
-                        <v-btn @click="$emit('deleteItem',item1, [j,i])" color="light-blue-accent-4" size="30" flat><v-icon>mdi-delete</v-icon></v-btn>
+                        <v-btn @click="$emit('deleteItem',item1, [j,i])" color="red" size="30" flat><v-icon>mdi-delete</v-icon></v-btn>
                         <v-btn v-show="item1.children?.length!==0" @click="level2=(level2===i?null:i)" color="light-blue-accent-4" size="30" flat><v-icon>mdi-{{ level2===i?'chevron-up':'chevron-down' }}</v-icon></v-btn>
                     </div>
                 </div>
@@ -26,7 +26,7 @@
                             <span>{{ item2[`name_${locale}`] }}</span>
                             <div class="d-flex gap-1">
                                 <v-btn @click="$emit('editItem',item2, [j,i,l])" color="light-blue-accent-4" size="30" flat><v-icon>mdi-pencil</v-icon></v-btn>
-                                <v-btn @click="$emit('deleteItem',item2, [j,i,l])" color="light-blue-accent-4" size="30" flat><v-icon>mdi-delete</v-icon></v-btn>
+                                <v-btn @click="$emit('deleteItem',item2, [j,i,l])" color="red" size="30" flat><v-icon>mdi-delete</v-icon></v-btn>
                             </div>
                         </div>
                     </div>
@@ -43,6 +43,6 @@ import { ICategory } from '../interfaces/index.variant'
 const emits = defineEmits(['addItem','editItem','deleteItem'])
 const props = defineProps<{items: ICategory[], locale: 'uz'|'en'|'ru'}>()
 const { items, locale } = toRefs(props)
-const level1 = ref<number|null>(null)
-const level2 = ref<number|null>(null)
+const level1 = ref<number|null>(0)
+const level2 = ref<number|null>(0)
 </script>

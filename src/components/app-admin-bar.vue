@@ -1,6 +1,11 @@
 <template>
   <v-app-bar color="background" flat height="60">
-    <v-app-bar-title>{{ getters.user.name || 'Admin Dashboard' }}</v-app-bar-title>
+    <div class="w-100 d-flex justify-start pl-2">
+      <v-avatar size="100">
+        <v-img src="/static/keshmed-logo.png"></v-img>  
+      </v-avatar>
+    </div>
+    <v-spacer></v-spacer>
     <template v-slot:append>
       <v-btn color="primary" variant="flat" size="40" @click="changeTheme">
         <v-icon>{{themeIcon}}</v-icon>

@@ -1,11 +1,11 @@
 <template>
-  <v-container fluid>
+  <v-container fluid class="py-0">
     <v-row justify="space-between" align="center">
         <!-- <v-col cols="9" sm="6" md="4" class="pb-0 pr-0">
             <v-text-field bg-color="surface" v-model="search" :placeholder="t('admin.search')" append-inner-icon="mdi-magnify" hide-details flat density="compact" variant="solo" class="border rounded"></v-text-field>
         </v-col> -->
-        <v-col cols="12" class="pb-0 d-flex justify-end">
-            <v-btn @click="dialog=true" flat color="primary" size="43" width="100%">
+        <v-col cols="12" class="pb-0 d-flex justify-end" style="margin-top:1px;">
+            <v-btn @click="dialog=true" color="primary" size="40" width="100%">
                 <v-icon>mdi-plus</v-icon>
             </v-btn>
         </v-col>

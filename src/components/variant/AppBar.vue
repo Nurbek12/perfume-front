@@ -6,9 +6,9 @@
                 {{ t('links.'+link) }}
             </v-btn>
         </div>
-        <router-link to="/" class="text-h6 text-primary text-decoration-none py-2">
-            <v-avatar size="150" rounded>
-                <v-img src="/logo.jpg" alt="site-logo"></v-img>
+        <router-link to="/" class="text-h6 text-primary text-decoration-none py-1">
+            <v-avatar size="120" rounded>
+                <v-img src="/static/keshmed-logo.png" cover alt="site-logo"></v-img>
             </v-avatar>
         </router-link>
 

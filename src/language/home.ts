@@ -1,6 +1,6 @@
 export const en = {
     title: "MEDICAL EQUIPMENTS",
-    desc: "Our company plays a critical role in bringing innovation and quality to the field of healthcare in Uzbekistan. We strive to continuously improve and update our high-quality medical devices and products to meet international standards and provide excellent healthcare services. By leveraging new technologies, we develop cutting-edge solutions in the medical field, ensuring the well-being of patients and healthcare professionals.",
+    desc: "Welcome to Kesh Med - your reliable partner in the field of medical equipment. We specialize in providing high-tech and innovative solutions for modern healthcare facilities.",
     search: "What are you looking for?",
 
     all_categories: "All categories",
@@ -12,7 +12,7 @@ export const en = {
     card_1_desc: "Fast and reliable delivery straight to you. We guarantee the safety of goods and timely fulfillment of orders.",
     
     card_2_title: "Installation",
-    card_2_desc: "Профессиональная установка наших продуктов для обеспечения оптимальной производительности и долгосрочной надежности.",
+    card_2_desc: "Professional installation of our products to ensure optimal performance and long-term reliability.",
     
     card_3_title: "Repair",
     card_3_desc: "Competently repair products using original spare parts. We will restore the functionality of your equipment quickly and efficiently.",
@@ -46,7 +46,7 @@ export const ru = {
 
 export const uz = {
     title: "TIBBIY USKUNALAR",
-    desc: "Olisda, olisda, so‘z tog‘lari ortida, unli va undoshlar yurtida baliq matnlari yashaydi. Keyin u o'zining grammatikasini baliqli deb qaror qildi, ular baliqdan uzoq edi. Uzoq yo'l, itoat qilgandan so'ng, matn u erga uchib ketadi.",
+    desc: "Kesh Med kompaniyasiga xush kelibsiz - tibbiy asbob-uskunalar sohasidagi ishonchli hamkoringiz. Biz zamonaviy sog'liqni saqlash muassasalari uchun yuqori texnologiyali va innovatsion yechimlarni taqdim etishga ixtisoslashganmiz.",
     search: "Nima izlamoqchisiz?",
 
     all_categories: "Barcha Kategoriyalar",
@@ -63,6 +63,6 @@ export const uz = {
     card_3_title: "Ta'mirlash",
     card_3_desc: "Asl ehtiyot qismlardan foydalangan holda mahsulotlarni malakali ta'mirlash. Uskunalaringizning funksionalligini tez va samarali tarzda tiklaymiz.",
     
-    card_4_title: "Поддержка 24/7",
+    card_4_title: "Yordam",
     card_4_desc: "Bizning qo'llab-quvvatlash jamoamiz kunning istalgan vaqtida sizga yordam berishga tayyor. Biz har bir mijozni qadrlaymiz va sizning so'rovlaringizga tezkor javob berishni kafolatlaymiz.",
 }
